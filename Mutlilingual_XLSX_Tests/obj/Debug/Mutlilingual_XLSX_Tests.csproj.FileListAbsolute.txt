@@ -1,0 +1,17 @@
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\pl\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\pl\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\pl\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Mutlilingual_XLSX_Tests.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Mutlilingual_XLSX_Tests.pdb
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\obj\Debug\Mutlilingual_XLSX_Tests.csprojAssemblyReference.cache
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\obj\Debug\Mutlilingual_XLSX_Tests.csproj.CoreCompileInputs.cache
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\obj\Debug\Mutlilingual_XLSX_Tests.csproj.CopyComplete
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\obj\Debug\Mutlilingual_XLSX_Tests.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Mutlilingual_XLSX_Tests\obj\Debug\Mutlilingual_XLSX_Tests.pdb
