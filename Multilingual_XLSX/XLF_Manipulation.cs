@@ -124,21 +124,25 @@ namespace Multilingual_XLSX
         }
 
 
-        //static public bool 
-
-        /*static public XmlNodeList GetAllTransUnits(XmlDocument contentXlf)
+        /*
+         * 
+         */
+        static public XmlNodeList GetAllTransUnitNodes(XmlDocument xlfDocument)
         {
 
             XmlNodeList transUnitList = null;
 
-            // checking if it is really content xlf file.
-          /*  if (contentXlf.)
+            if (IsContentXlf(xlfDocument))
             {
-
+                transUnitList = xlfDocument.GetElementsByTagName("trans-unit");
             }
 
             return transUnitList;
-        }*/
+        }
+
+        /*
+         * To be continued
+         */
 
     }
 }
