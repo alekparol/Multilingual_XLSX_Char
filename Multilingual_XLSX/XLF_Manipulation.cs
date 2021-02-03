@@ -157,6 +157,25 @@ namespace Multilingual_XLSX
         }
 
         /*
+         * 
+         */
+        static public XmlNode AddCharLimit(XmlNode transUnitNode, string limitValue)
+        {
+
+            XmlAttribute unitSize = transUnitNode.OwnerDocument.CreateAttribute("size-unit");
+            unitSize.Value = "char";
+
+            XmlAttribute maxWidth = transUnitNode.OwnerDocument.CreateAttribute("maxwidth");
+            unitSize.Value = limitValue;
+
+            transUnitNode.Attributes.Append(unitSize);
+            transUnitNode.Attributes.Append(maxWidth);
+
+            return transUnitNode;
+
+        }
+
+        /*
          * To be continued
          */
 
