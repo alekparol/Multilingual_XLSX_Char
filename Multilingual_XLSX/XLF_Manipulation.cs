@@ -46,7 +46,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xliff Smoke Chekc
+         * Xliff Smoke Check
          */
 
         public static int IsXliffValid(XmlDocument xlfDocument)
@@ -135,6 +135,22 @@ namespace Multilingual_XLSX
             if (IsContentXlf(xlfDocument))
             {
                 transUnitList = xlfDocument.GetElementsByTagName("trans-unit");
+            }
+
+            return transUnitList;
+        }
+
+        /*
+         * 
+         */
+        static public XmlNodeList GetTranslatableTransUnitNodes(XmlDocument xlfDocument)
+        {
+
+            XmlNodeList transUnitList = null;
+
+            if (IsContentXlf(xlfDocument))
+            {
+                transUnitList = xlfDocument.SelectNodes("//trans-unit[@translate='yes']");
             }
 
             return transUnitList;

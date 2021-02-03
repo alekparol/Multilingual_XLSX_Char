@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Multilingual_XLSX
 {
-    class SKL_Manipulation
+    public class SKL_Manipulation
     {
 
         /*
@@ -172,6 +172,8 @@ namespace Multilingual_XLSX
 
             return transUnitList;
         }
+
+        
 
 
         static public string GetCharLimit(XmlNode formattingNode)

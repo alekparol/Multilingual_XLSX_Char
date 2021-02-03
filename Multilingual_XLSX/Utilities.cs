@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using static Multilingual_XLSX.SKL_Manipulation;
+using static Multilingual_XLSX.XLF_Manipulation;
 
 /*
          * What do we need? 
@@ -34,10 +35,10 @@ namespace Multilingual_XLSX
          * To be continued
          */
 
-        static public Dictionary<int, string> GetCharLimitDictionary (List<XmlNode> formattingNodeList)
+        static public Dictionary<string, string> GetCharLimitDictionary (List<XmlNode> formattingNodeList)
         {
             List<XmlNode> placeholderList = new List<XmlNode>();
-            Dictionary<int, string> charLimitDictionary = new Dictionary<int, string>();
+            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
 
             if (formattingNodeList.Count > 0)
             {
@@ -48,7 +49,7 @@ namespace Multilingual_XLSX
 
                     foreach (XmlNode placeholderNode in placeholderList)
                     {
-                        charLimitDictionary.Add(Int32.Parse(placeholderNode.Attributes["id"].Value), charLimit);
+                        charLimitDictionary.Add(placeholderNode.Attributes["id"].Value, charLimit);
                     }
 
                 }
@@ -60,10 +61,16 @@ namespace Multilingual_XLSX
         }
 
 
-        static public string AddCharLimits(XmlDocument contentXlf, Dictionary<int, string> charLimitDictionary)
+        /*static public string AddCharLimits(XmlDocument contentXlf, Dictionary<int, string> charLimitDictionary)
         {
+            XmlNodeList translatableNodes = GetTranslatableTransUnitNodes(contentXlf);
 
-        }
+            foreach(XmlNode translatableNode in translatableNodes)
+            {
+                translatableNode.Attributes.
+            }
+
+        }*/
 
     }
 }
