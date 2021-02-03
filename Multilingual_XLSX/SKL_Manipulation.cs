@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Multilingual_XLSX
@@ -124,8 +125,71 @@ namespace Multilingual_XLSX
         }
 
         /*
+         * 
+         */
+        static public XmlNodeList GetFormattingNodesContainingMaxChar(XmlDocument sklDocument)
+        {
+
+            XmlNodeList transUnitList = null;
+
+            if (IsSkeletonSkl(sklDocument))
+            {
+                transUnitList = sklDocument.SelectNodes("//formatting[contains(text(), \"max.\") and contains(text(),\".char\")]");
+            }
+
+            return transUnitList;
+        }
+
+        /*
+        * 
+        */
+        static public XmlNodeList GetAllPlaceholderNodes(XmlDocument sklDocument)
+        {
+
+            XmlNodeList transUnitList = null;
+
+            if (IsSkeletonSkl(sklDocument))
+            {
+                transUnitList = sklDocument.GetElementsByTagName("tu-placeholder");
+            }
+
+            return transUnitList;
+        }
+
+        /*
          * To be continued
          */
+
+        static public List<XmlNode> GetAllPlaceholderNodesPreceedingFormattingNode(XmlNode formattingNode)
+        {
+            List<XmlNode> transUnitList = new List<XmlNode>();
+            XmlNode previousSibling = formattingNode.PreviousSibling;
+
+            while(previousSibling.Name == "tu-placeholder")
+            {
+                transUnitList.Add(previousSibling);
+            }
+
+            return transUnitList;
+        }
+
+
+        static public string GetCharLimit(XmlNode formattingNode)
+        {
+            Regex regex = new Regex("max\\.\\d +\\.char");
+            string charLimit = String.Empty;
+
+            if (formattingNode.Name == "formatting")
+            {
+                MatchCollection charLimitMatches = regex.Matches(formattingNode.InnerText);
+                charLimit = charLimitMatches[0].Value;
+            }
+
+            return charLimit;
+
+        }
+
+        //static public XmlNodeList FilterFormattingNodesByMaxChar(XmlNodeList formattingNodeList)
 
     }
 }
