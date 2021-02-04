@@ -5737,9 +5737,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSXTests1.csproj",
-      "projectName": "Multilingual_XLSXTests1",
-      "projectPath": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSXTests1.csproj",
+      "projectUniqueName": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSX_Tests.csproj",
+      "projectName": "Multilingual_XLSX_Tests",
+      "projectPath": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSX_Tests.csproj",
       "packagesPath": "C:\\Users\\Aleksander.Parol\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\obj\\",
       "projectStyle": "PackageReference",

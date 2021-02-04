@@ -13,4 +13,8 @@
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Multilingual_XLSX\Multilingual_XLSX.csproj" />
+  </ItemGroup>
+
 </Project>

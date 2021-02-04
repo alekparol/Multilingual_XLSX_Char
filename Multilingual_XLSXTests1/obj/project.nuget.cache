@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "c/cZb7YIqjIT46VuEN7I++rQPJelkLcNr/RBQi1g6yRD5SNWRIaLmDMIgEsLmli4tU1mIQLYIvrDuzRsV/smtw==",
+  "dgSpecHash": "mjJ5o3pEhAK5Cw2/HjAKjsvZ/b15tZa9ZA1ncOdDAOLGlE/ghq823jtBkKSHc3dleEKKQOAiDQDNSmMJe55AIA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSXTests1.csproj",
+  "projectFilePath": "C:\\Users\\Aleksander.Parol\\Documents\\GitHub\\Multilingual_XLSX_Char\\Multilingual_XLSXTests1\\Multilingual_XLSX_Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Aleksander.Parol\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
     "C:\\Users\\Aleksander.Parol\\.nuget\\packages\\microsoft.codecoverage\\16.5.0\\microsoft.codecoverage.16.5.0.nupkg.sha512",

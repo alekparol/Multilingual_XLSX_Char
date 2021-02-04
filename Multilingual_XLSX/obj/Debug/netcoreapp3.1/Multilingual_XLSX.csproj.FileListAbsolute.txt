@@ -1,0 +1,13 @@
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.exe
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.deps.json
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.runtimeconfig.json
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.runtimeconfig.dev.json
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\bin\Debug\netcoreapp3.1\Multilingual_XLSX.pdb
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.csprojAssemblyReference.cache
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.AssemblyInfoInputs.cache
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.AssemblyInfo.cs
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.csproj.CoreCompileInputs.cache
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.dll
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.pdb
+C:\Users\Aleksander.Parol\Documents\GitHub\Multilingual_XLSX_Char\Multilingual_XLSX\obj\Debug\netcoreapp3.1\Multilingual_XLSX.genruntimeconfig.cache

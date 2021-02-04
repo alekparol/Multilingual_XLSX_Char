@@ -5,12 +5,7 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multilingual_XLSX", "Multilingual_XLSX.csproj", "{DC2CCCA7-24F1-4058-B656-71E01EB4041B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mutlilingual_XLSX_Tests", "..\Mutlilingual_XLSX_Tests\Mutlilingual_XLSX_Tests.csproj", "{29E04D72-8D25-41C1-B479-E35684A6F84A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DC2CCCA7-24F1-4058-B656-71E01EB4041B} = {DC2CCCA7-24F1-4058-B656-71E01EB4041B}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multilingual_XLSXTests1", "..\Multilingual_XLSXTests1\Multilingual_XLSXTests1.csproj", "{68A75994-FC2A-4694-BEF8-D5F056A5B8B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multilingual_XLSX_Tests", "..\Multilingual_XLSXTests1\Multilingual_XLSX_Tests.csproj", "{68A75994-FC2A-4694-BEF8-D5F056A5B8B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +17,6 @@ Global
 		{DC2CCCA7-24F1-4058-B656-71E01EB4041B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC2CCCA7-24F1-4058-B656-71E01EB4041B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC2CCCA7-24F1-4058-B656-71E01EB4041B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29E04D72-8D25-41C1-B479-E35684A6F84A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29E04D72-8D25-41C1-B479-E35684A6F84A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29E04D72-8D25-41C1-B479-E35684A6F84A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29E04D72-8D25-41C1-B479-E35684A6F84A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68A75994-FC2A-4694-BEF8-D5F056A5B8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68A75994-FC2A-4694-BEF8-D5F056A5B8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68A75994-FC2A-4694-BEF8-D5F056A5B8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
