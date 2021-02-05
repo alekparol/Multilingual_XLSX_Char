@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using static Multilingual_XLSX.XLF_Manipulation;
+using static Multilingual_XLSX.SKL_Manipulation;
+using System.Linq;
 
 namespace Multilingual_XLSX.Tests
 {

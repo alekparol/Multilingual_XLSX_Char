@@ -28,7 +28,7 @@ using static Multilingual_XLSX.XLF_Manipulation;
 
 namespace Multilingual_XLSX
 {
-    class Utilities
+    public class Utilities
     {
 
         /*

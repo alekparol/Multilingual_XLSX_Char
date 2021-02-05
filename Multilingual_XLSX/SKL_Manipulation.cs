@@ -26,7 +26,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xliff Check
+         * Skl Check
          */
         public static int IsSkeleton(XmlDocument sklDocument)
         {
@@ -48,7 +48,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xliff Smoke Chekc
+         * Skl Validity Check
          */
 
         public static int IsSkeletonValid(XmlDocument sklDocument)
@@ -73,7 +73,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Xliff Version
+         * Get Skl Version
          */
 
         public static string SkeletonVersion(XmlDocument sklDocument)
@@ -184,7 +184,7 @@ namespace Multilingual_XLSX
             if (formattingNode.Name == "formatting")
             {
                 MatchCollection charLimitMatches = regex.Matches(formattingNode.InnerText);
-                charLimit = charLimitMatches[0].Value;
+                if (charLimitMatches.Count == 1) charLimit = charLimitMatches[0].Value;
             }
 
             return charLimit;
