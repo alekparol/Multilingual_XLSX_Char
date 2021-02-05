@@ -45,7 +45,7 @@ namespace Multilingual_XLSX
                 foreach (XmlNode formattingNode in formattingNodeList)
                 {
                     string charLimit = GetCharLimit(formattingNode);
-                    placeholderList = GetAllPlaceholderNodesPreceedingFormattingNode(formattingNode);
+                    placeholderList = PlaceholderNodesPreceding(formattingNode);
 
                     foreach (XmlNode placeholderNode in placeholderList)
                     {
