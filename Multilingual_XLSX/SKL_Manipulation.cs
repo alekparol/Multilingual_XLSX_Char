@@ -73,10 +73,10 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Skl Version
+         * Get Skl Attribute Value
          */
 
-        public static string SklVersion(XmlDocument sklDocument)
+        public static string SklAttributeValue(XmlDocument sklDocument, string attributeName)
         {
             if (IsSklValid(sklDocument) == 1)
             {
@@ -84,11 +84,11 @@ namespace Multilingual_XLSX
                 string sklVersion = String.Empty;
 
                 XmlNode sklNode = sklDocument.GetElementsByTagName("tt-xliff-skl").Item(0);
-                XmlAttribute sklVersionAttribute = sklNode.Attributes["version"];
+                XmlAttribute sklVersionAttribute = sklNode.Attributes[attributeName];
 
                 if (sklVersionAttribute != null)
                 {
-                    sklVersion = sklNode.Attributes["version"].Value;
+                    sklVersion = sklVersionAttribute.Value;
                 }
 
                 return sklVersion;
@@ -99,11 +99,20 @@ namespace Multilingual_XLSX
             }
         }
 
+        /*
+         * Get Skl Version
+         */
+
+        public static string SklVersion(XmlDocument sklDocument)
+        {
+            return SklAttributeValue(sklDocument, "version");
+        }
+
 
         /*
-         * content.xlf Check
+         * skeleton.skl Check
          */
-        public static bool IsSklSkl(XmlDocument sklDocument)
+        public static bool IsSkeleton(XmlDocument sklDocument)
         {
             if (SklVersion(sklDocument) != String.Empty)
             {
@@ -117,14 +126,14 @@ namespace Multilingual_XLSX
 
 
         /*
-         * 
+         * Return All Formatting Nodes
          */
         static public XmlNodeList GetAllFormattingNodes(XmlDocument sklDocument)
         {
 
             XmlNodeList transUnitList = null;
 
-            if (IsSklSkl(sklDocument))
+            if (IsSkl(sklDocument) == 1)
             {
                 transUnitList = sklDocument.GetElementsByTagName("formatting");
             }
@@ -133,14 +142,14 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
+         * Return All Formatting Nodes Containing Max.N.Char
          */
         static public XmlNodeList GetFormattingNodesContainingMaxChar(XmlDocument sklDocument)
         {
 
             XmlNodeList transUnitList = null;
 
-            if (IsSklSkl(sklDocument))
+            if (IsSkl(sklDocument) == 1)
             {
                 transUnitList = sklDocument.SelectNodes("//formatting[contains(text(), \"max.\") and contains(text(),\".char\")]");
             }
@@ -156,7 +165,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsSklSkl(sklDocument))
+            if (IsSkeleton(sklDocument))
             {
                 transUnitList = sklDocument.GetElementsByTagName("tu-placeholder");
             }
