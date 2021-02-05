@@ -11,17 +11,45 @@ namespace Multilingual_XLSX.Tests
     [TestClass()]
     public class SKL_Manipulation_Tests
     {
-        [DataRow()]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", false)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", false)]
+        [DataRow("", true)]
         [DataTestMethod]
         public void IsNull_Test(string filePath, bool expectedOutcome)
         {
-
             XmlDocument sklDocument = new XmlDocument();
-            sklDocument.Load(filePath);
 
-
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
 
             Assert.AreEqual(expectedOutcome, IsNull(sklDocument));
+
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 1)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 0)]
+        [DataRow("", -1)]
+        [DataTestMethod]
+        public void IsSkl_Test(string filePath, int expectedOutcome)
+        {
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            Assert.AreEqual(expectedOutcome, IsSkl(sklDocument));
         }
     }
 }

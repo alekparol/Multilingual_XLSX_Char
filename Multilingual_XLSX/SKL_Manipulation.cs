@@ -28,7 +28,7 @@ namespace Multilingual_XLSX
         /*
          * Skl Check
          */
-        public static int IsSkeleton(XmlDocument sklDocument)
+        public static int IsSkl(XmlDocument sklDocument)
         {
             if (!IsNull(sklDocument))
             {
@@ -51,9 +51,9 @@ namespace Multilingual_XLSX
          * Skl Validity Check
          */
 
-        public static int IsSkeletonValid(XmlDocument sklDocument)
+        public static int IsSklValid(XmlDocument sklDocument)
         {
-            if (IsSkeleton(sklDocument) == 1)
+            if (IsSkl(sklDocument) == 1)
             {
                 XmlNodeList skeletonNodes = sklDocument.GetElementsByTagName("tt-xliff-skl");
 
@@ -78,7 +78,7 @@ namespace Multilingual_XLSX
 
         public static string SkeletonVersion(XmlDocument sklDocument)
         {
-            if (IsSkeletonValid(sklDocument) == 1)
+            if (IsSklValid(sklDocument) == 1)
             {
                 XmlNode xliffNode = sklDocument.GetElementsByTagName("tt-xliff-skl").Item(0);
                 string xliffVersion = xliffNode.Attributes["version"].Value;
@@ -95,7 +95,7 @@ namespace Multilingual_XLSX
         /*
          * content.xlf Check
          */
-        public static bool IsSkeletonSkl(XmlDocument sklDocument)
+        public static bool IsSklSkl(XmlDocument sklDocument)
         {
             if (SkeletonVersion(sklDocument) != String.Empty)
             {
@@ -116,7 +116,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsSkeletonSkl(sklDocument))
+            if (IsSklSkl(sklDocument))
             {
                 transUnitList = sklDocument.GetElementsByTagName("formatting");
             }
@@ -132,7 +132,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsSkeletonSkl(sklDocument))
+            if (IsSklSkl(sklDocument))
             {
                 transUnitList = sklDocument.SelectNodes("//formatting[contains(text(), \"max.\") and contains(text(),\".char\")]");
             }
@@ -148,7 +148,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsSkeletonSkl(sklDocument))
+            if (IsSklSkl(sklDocument))
             {
                 transUnitList = sklDocument.GetElementsByTagName("tu-placeholder");
             }
