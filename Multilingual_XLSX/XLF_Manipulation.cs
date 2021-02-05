@@ -185,6 +185,36 @@ namespace Multilingual_XLSX
             }
 
         }
+        
+        /*
+         * 
+         */
+        static public void AddCharAsSizeUnit(XmlNode transUnitNode)
+        {
+
+            AddSizeUnit(transUnitNode, "char");
+
+        }
+
+        /*
+         * 
+         */
+        static public void AddByteAsSizeUnit(XmlNode transUnitNode)
+        {
+
+            AddSizeUnit(transUnitNode, "byte");
+
+        }
+
+        /*
+         * 
+         */
+        static public void AddPixelAsSizeUnit(XmlNode transUnitNode)
+        {
+
+            AddSizeUnit(transUnitNode, "pixel");
+
+        }
 
         /*
          * 
@@ -205,19 +235,11 @@ namespace Multilingual_XLSX
         /*
          * 
          */
-        static public void AddCharLimit(XmlNode transUnitNode, string limitValue)
+        static public void AddCharLimit(XmlNode transUnitNode, string maxWidthValue)
         {
 
-            XmlAttribute unitSize = transUnitNode.OwnerDocument.CreateAttribute("size-unit");
-            unitSize.Value = "char";
-
-            XmlAttribute maxWidth = transUnitNode.OwnerDocument.CreateAttribute("maxwidth");
-            maxWidth.Value = limitValue;
-
-            transUnitNode.Attributes.Append(unitSize);
-            transUnitNode.Attributes.Append(maxWidth);
-
-            //return transUnitNode;
+            AddCharAsSizeUnit(transUnitNode);
+            AddMaxWidth(transUnitNode, maxWidthValue);
 
         }
 
