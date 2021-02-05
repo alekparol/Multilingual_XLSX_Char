@@ -51,5 +51,52 @@ namespace Multilingual_XLSX.Tests
 
             Assert.AreEqual(expectedOutcome, IsSkl(sklDocument));
         }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 1)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\Invalid SKL\skeleton.skl", 0)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", -1)]
+        [DataRow("", -1)]
+        [DataTestMethod]
+        public void IsSklValid_Test(string filePath, int expectedOutcome)
+        {
+
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            Assert.AreEqual(expectedOutcome, IsSklValid(sklDocument));
+
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "1.0")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\SKL Without Version\skeleton.skl", "")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\Invalid SKL\skeleton.skl", "")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "")]
+        [DataRow("", "")]
+        [DataTestMethod]
+        public void SklVersion_Test(string filePath, string expectedOutcome)
+        {
+
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            Assert.AreEqual(expectedOutcome, SklVersion(sklDocument));
+
+        }
     }
 }

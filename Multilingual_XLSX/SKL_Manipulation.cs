@@ -76,14 +76,22 @@ namespace Multilingual_XLSX
          * Get Skl Version
          */
 
-        public static string SkeletonVersion(XmlDocument sklDocument)
+        public static string SklVersion(XmlDocument sklDocument)
         {
             if (IsSklValid(sklDocument) == 1)
             {
-                XmlNode xliffNode = sklDocument.GetElementsByTagName("tt-xliff-skl").Item(0);
-                string xliffVersion = xliffNode.Attributes["version"].Value;
 
-                return xliffVersion;
+                string sklVersion = String.Empty;
+
+                XmlNode sklNode = sklDocument.GetElementsByTagName("tt-xliff-skl").Item(0);
+                XmlAttribute sklVersionAttribute = sklNode.Attributes["version"];
+
+                if (sklVersionAttribute != null)
+                {
+                    sklVersion = sklNode.Attributes["version"].Value;
+                }
+
+                return sklVersion;
             }
             else
             {
@@ -97,7 +105,7 @@ namespace Multilingual_XLSX
          */
         public static bool IsSklSkl(XmlDocument sklDocument)
         {
-            if (SkeletonVersion(sklDocument) != String.Empty)
+            if (SklVersion(sklDocument) != String.Empty)
             {
                 return true;
             }
