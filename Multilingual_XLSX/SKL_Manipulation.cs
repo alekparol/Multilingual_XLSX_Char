@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -126,19 +127,27 @@ namespace Multilingual_XLSX
 
 
         /*
-         * Return All Formatting Nodes
+         * Return All Nodes Specified By Name
          */
-        static public XmlNodeList FormattingNodes(XmlDocument sklDocument)
+        static public XmlNodeList NodesSkl(XmlDocument sklDocument, string tagName)
         {
 
             XmlNodeList transUnitList = null;
 
             if (IsSkl(sklDocument) == 1)
             {
-                transUnitList = sklDocument.GetElementsByTagName("formatting");
+                transUnitList = sklDocument.GetElementsByTagName(tagName);
             }
 
             return transUnitList;
+        }
+
+        /*
+         * Return All Formatting Nodes
+         */
+        static public XmlNodeList FormattingNodes(XmlDocument sklDocument)
+        {
+            return NodesSkl(sklDocument, "formatting");
         }
 
         /*
@@ -162,15 +171,26 @@ namespace Multilingual_XLSX
         */
         static public XmlNodeList PlaceholderNodes(XmlDocument sklDocument)
         {
+            return NodesSkl(sklDocument, "tu-placeholder");
+        }
 
-            XmlNodeList transUnitList = null;
+        /*
+         * Return All Nodes Specified by Name Preceding a Passed Node
+         */
+        static public List<XmlNode> NodesPreceding(XmlNode sklNode, string tagName)
+        {
+            List<XmlNode> nodesPrecedingList = new List<XmlNode>();
+            XmlNodeList nodesPreceding = sklNode.SelectNodes("./preceding-sibling::" + tagName);
 
-            if (IsSkl(sklDocument) == 1)
+            if (nodesPreceding.Count > 0)
             {
-                transUnitList = sklDocument.GetElementsByTagName("tu-placeholder");
+                foreach (XmlNode nodePreceding in nodesPreceding)
+                {
+                    nodesPrecedingList.Add(nodePreceding);
+                }
             }
 
-            return transUnitList;
+            return nodesPrecedingList;
         }
 
         /*
@@ -179,19 +199,16 @@ namespace Multilingual_XLSX
 
         static public List<XmlNode> PlaceholderNodesPreceding(XmlNode formattingNode)
         {
-            List<XmlNode> placeholderNodesPreceedingList = new List<XmlNode>();
-            XmlNodeList placeholderNodesPreceeding = formattingNode.SelectNodes("./preceding-sibling::tu-placeholder");
+            return NodesPreceding(formattingNode, "tu-placeholder");
+        }
 
-            if (placeholderNodesPreceeding.Count > 0)
-            {
-                foreach (XmlNode precedingPlaceholderNode in placeholderNodesPreceeding)
-                {
-                    placeholderNodesPreceedingList.Add(precedingPlaceholderNode);
-                }
-            }
+        /*
+         * Return All formatting Nodes Preceding Formatting Node
+         */
 
-            return placeholderNodesPreceedingList;
-
+        static public List<XmlNode> FormattingNodesPreceding(XmlNode formattingNode)
+        {
+            return NodesPreceding(formattingNode, "formatting");
         }
 
         /*
@@ -200,42 +217,38 @@ namespace Multilingual_XLSX
 
         static public List<XmlNode> PlaceholderNodesPrecedingDirectly(XmlNode formattingNode)
         {
-            List<XmlNode> precedingPlaceholderNodesList = PlaceholderNodesPreceding(formattingNode);
+            List<XmlNode> placeholderNodesPreceding = PlaceholderNodesPreceding(formattingNode);
+            List<XmlNode> formattingNodesPreceding = FormattingNodesPreceding(formattingNode);
 
-            XmlNodeList precedingFormattingNodes = formattingNode.SelectNodes("./preceding-sibling::formatting");
+            int formattingNodesCount = formattingNodesPreceding.Count;
 
-            if (precedingFormattingNodes != null)
+            if (formattingNodesCount > 0)
             {
+                XmlNode formattingNodePreceding = formattingNodesPreceding[formattingNodesCount - 1];
 
-                int precedingFormattingNodesCount = precedingFormattingNodes.Count;
-                
-                if (precedingFormattingNodesCount > 0)
-                {
-                    XmlNode precedingFormattingNode = precedingFormattingNodes.Item(precedingFormattingNodesCount - 1);
+                List<XmlNode> placeholderNodesPrecedingPrevious = PlaceholderNodesPreceding(formattingNodePreceding);
 
-                    List<XmlNode> precedingPlaceholderNodePrecedingFormattingNodeList = PlaceholderNodesPreceding(precedingFormattingNode);
-                    precedingPlaceholderNodesList = precedingPlaceholderNodesList.FindAll(x => precedingPlaceholderNodePrecedingFormattingNodeList.Contains(x) == false);
+                placeholderNodesPreceding = placeholderNodesPreceding.FindAll(x => placeholderNodesPrecedingPrevious.Contains(x) == false);
 
-                }
             }
 
-            return precedingPlaceholderNodesList;
+                return placeholderNodesPreceding;
 
         }
 
         /*
-         * Returns tu-placeholder Nodes Preceding Directly Formatting Node
+         * 
          */
 
         static public string GetCharLimit(XmlNode formattingNode)
         {
-            Regex regex = new Regex("max\\.\\d +\\.char");
+            Regex regex = new Regex("max\\.(\\d+)\\.char");
             string charLimit = String.Empty;
 
             if (formattingNode.Name == "formatting")
             {
                 MatchCollection charLimitMatches = regex.Matches(formattingNode.InnerText);
-                if (charLimitMatches.Count == 1) charLimit = charLimitMatches[0].Value;
+                if (charLimitMatches.Count > 0) charLimit = charLimitMatches[0].Groups[1].Value;
             }
 
             return charLimit;

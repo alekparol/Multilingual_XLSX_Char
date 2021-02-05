@@ -32,7 +32,7 @@ namespace Multilingual_XLSX
     {
 
         /*
-         * To be continued
+         * 
          */
 
         static public Dictionary<string, string> GetCharLimitDictionary (List<XmlNode> formattingNodeList)
@@ -45,7 +45,7 @@ namespace Multilingual_XLSX
                 foreach (XmlNode formattingNode in formattingNodeList)
                 {
                     string charLimit = GetCharLimit(formattingNode);
-                    placeholderList = PlaceholderNodesPreceding(formattingNode);
+                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
 
                     foreach (XmlNode placeholderNode in placeholderList)
                     {

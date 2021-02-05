@@ -3,6 +3,7 @@ using Multilingual_XLSX;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using static Multilingual_XLSX.SKL_Manipulation;
 
@@ -285,6 +286,27 @@ namespace Multilingual_XLSX.Tests
 
         }
 
-        
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", 0, "152")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", 1, "100")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", 2, "20")]
+        [DataTestMethod]
+        public void GetCharLimit_Test(string filePath, int formattingNodeId, string expectedOutcome)
+        {
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            XmlNodeList formattingNodes = FormattingNodesCharLimit(sklDocument);
+            XmlNode formattingNode = formattingNodes.Item(formattingNodeId);
+
+            Assert.AreEqual(expectedOutcome, GetCharLimit(formattingNode));
+        }
     }
 }
