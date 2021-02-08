@@ -31,7 +31,7 @@ namespace Multilingual_XLSX.Tests
             XmlNodeList formattingNodes = FormattingNodesCharLimit(sklDocument);
 
             List<XmlNode> formattingNodesList = new List<XmlNode>();
-            foreach(XmlNode formattingNode in formattingNodes)
+            foreach (XmlNode formattingNode in formattingNodes)
             {
                 formattingNodesList.Add(formattingNode);
             }
@@ -40,6 +40,49 @@ namespace Multilingual_XLSX.Tests
 
             Assert.AreEqual(expectedOutcome, idCharLimit.Count);
 
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", @"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\content.xlf")]
+        [DataTestMethod]
+        public void AddCharLimits_Test(string sklPath, string xlfPath)
+        {
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (sklPath != String.Empty)
+            {
+                sklDocument.Load(sklPath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            XmlNodeList formattingNodes = FormattingNodesCharLimit(sklDocument);
+
+            List<XmlNode> formattingNodesList = new List<XmlNode>();
+            foreach (XmlNode formattingNode in formattingNodes)
+            {
+                formattingNodesList.Add(formattingNode);
+            }
+
+            Dictionary<string, string> idCharLimit = GetCharLimitDictionary(formattingNodesList);
+
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (xlfPath != String.Empty)
+            {
+                xlfDocument.Load(xlfPath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            AddCharLimits(xlfDocument, idCharLimit);
+
+            xlfDocument.Save(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\tt.xlf");
+
+            Assert.AreEqual(0, xlfDocument.SelectNodes("//trans-unit[@size-unit]").Count);
         }
     }
 }

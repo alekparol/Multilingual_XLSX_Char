@@ -224,8 +224,8 @@ namespace Multilingual_XLSX
 
             if (formattingNodesCount > 0)
             {
-                XmlNode formattingNodePreceding = formattingNodesPreceding[formattingNodesCount - 1];
 
+                XmlNode formattingNodePreceding = formattingNodesPreceding[formattingNodesCount - 1];
                 List<XmlNode> placeholderNodesPrecedingPrevious = PlaceholderNodesPreceding(formattingNodePreceding);
 
                 placeholderNodesPreceding = placeholderNodesPreceding.FindAll(x => placeholderNodesPrecedingPrevious.Contains(x) == false);
@@ -237,7 +237,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
+         * Returns the String with Char Limit Size
          */
 
         static public string GetCharLimit(XmlNode formattingNode)
@@ -254,8 +254,6 @@ namespace Multilingual_XLSX
             return charLimit;
 
         }
-
-        //static public XmlNodeList FilterFormattingNodesByMaxChar(XmlNodeList formattingNodeList)
 
     }
 }

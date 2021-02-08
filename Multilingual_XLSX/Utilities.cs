@@ -37,14 +37,16 @@ namespace Multilingual_XLSX
 
         static public Dictionary<string, string> GetCharLimitDictionary (List<XmlNode> formattingNodeList)
         {
-            List<XmlNode> placeholderList = new List<XmlNode>();
-            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
 
+            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
+            List<XmlNode> placeholderList = new List<XmlNode>();
+            
             if (formattingNodeList.Count > 0)
             {
                 foreach (XmlNode formattingNode in formattingNodeList)
                 {
                     string charLimit = GetCharLimit(formattingNode);
+
                     placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
 
                     foreach (XmlNode placeholderNode in placeholderList)
@@ -61,16 +63,25 @@ namespace Multilingual_XLSX
         }
 
 
-        /*static public string AddCharLimits(XmlDocument contentXlf, Dictionary<int, string> charLimitDictionary)
+        static public void AddCharLimits(XmlDocument contentXlf, Dictionary<string, string> charLimitDictionary)
         {
+
             XmlNodeList translatableNodes = GetTranslatableTransUnitNodes(contentXlf);
 
             foreach(XmlNode translatableNode in translatableNodes)
             {
-                translatableNode.Attributes.
+
+                string transUnitId = translatableNode.Attributes["id"].Value;
+
+                if (charLimitDictionary.ContainsKey(transUnitId))
+                {
+                    AddCharLimit(translatableNode, charLimitDictionary[transUnitId]);
+                }
             }
 
-        }*/
+        }
+
+        /* TODO: Add Functionality to make char limit in the groups */
 
     }
 }

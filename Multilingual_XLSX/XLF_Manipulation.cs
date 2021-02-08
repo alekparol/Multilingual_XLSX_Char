@@ -28,9 +28,9 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xliff Check
+         * Xlf Check
          */
-        public static int IsXliff(XmlDocument xlfDocument)
+        public static int IsXlf(XmlDocument xlfDocument)
         {
             if (!IsNull(xlfDocument))
             {
@@ -50,12 +50,12 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xliff Smoke Check
+         * Xlf Validity Check
          */
 
-        public static int IsXliffValid(XmlDocument xlfDocument)
+        public static int IsXlfValid(XmlDocument xlfDocument)
         {
-            if (IsXliff(xlfDocument) == 1)
+            if (IsXlf(xlfDocument) == 1)
             {
                 XmlNodeList xliffNodes = xlfDocument.GetElementsByTagName("xliff");
 
@@ -75,17 +75,25 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Xliff Version
+         * Get Xlf Attribute Value
          */
 
-        public static string XliffVersion(XmlDocument xlfDocument)
+        public static string XlfAttributeValue(XmlDocument xlfDocument, string attributeName)
         {
-            if (IsXliffValid(xlfDocument) == 1)
+            if (IsXlfValid(xlfDocument) == 1)
             {
-                XmlNode xliffNode = xlfDocument.GetElementsByTagName("xliff").Item(0);
-                string xliffVersion = xliffNode.Attributes["version"].Value;
 
-                return xliffVersion;
+                string sklVersion = String.Empty;
+
+                XmlNode sklNode = xlfDocument.GetElementsByTagName("xliff").Item(0);
+                XmlAttribute sklVersionAttribute = sklNode.Attributes[attributeName];
+
+                if (sklVersionAttribute != null)
+                {
+                    sklVersion = sklVersionAttribute.Value;
+                }
+
+                return sklVersion;
             }
             else
             {
@@ -94,30 +102,29 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Xliff Xmlns
+         * Get Xlf Version
          */
 
-        public static string XliffXmlns(XmlDocument xlfDocument)
+        public static string XlfVersion(XmlDocument xlfDocument)
         {
-            if (IsXliffValid(xlfDocument) == 1)
-            {
-                XmlNode xliffNode = xlfDocument.GetElementsByTagName("xliff").Item(0);
-                string xliffVersion = xliffNode.Attributes["xmlns:logoport"].Value;
+            return XlfAttributeValue(xlfDocument, "version");
+        }
 
-                return xliffVersion;
-            }
-            else
-            {
-                return String.Empty;
-            }
+        /*
+         * Get Xlf Xmlns
+         */
+
+        public static string XlfXmlns(XmlDocument xlfDocument)
+        {
+            return XlfAttributeValue(xlfDocument, "xmlns:logoport");
         }
 
         /*
          * content.xlf Check
          */
-        public static bool IsContentXlf(XmlDocument xlfDocument)
+        public static bool IsContent(XmlDocument xlfDocument)
         {
-            if (XliffVersion(xlfDocument) != String.Empty && XliffXmlns(xlfDocument) != String.Empty)
+            if (XlfVersion(xlfDocument) != String.Empty && XlfXmlns(xlfDocument) != String.Empty)
             {
                 return true;
             }
@@ -136,7 +143,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsContentXlf(xlfDocument))
+            if (IsContent(xlfDocument))
             {
                 transUnitList = xlfDocument.GetElementsByTagName("trans-unit");
             }
@@ -152,7 +159,7 @@ namespace Multilingual_XLSX
 
             XmlNodeList transUnitList = null;
 
-            if (IsContentXlf(xlfDocument))
+            if (IsContent(xlfDocument))
             {
                 transUnitList = xlfDocument.SelectNodes("//trans-unit[@translate='yes']");
             }
@@ -227,7 +234,7 @@ namespace Multilingual_XLSX
 
             if (operationValue)
             {
-                AddAttributeAndValue(transUnitNode, "size-unit", maxWidthValue);
+                AddAttributeAndValue(transUnitNode, "maxwidth", maxWidthValue);
             }
 
         }
