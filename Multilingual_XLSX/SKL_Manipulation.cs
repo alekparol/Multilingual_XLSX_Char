@@ -151,6 +151,14 @@ namespace Multilingual_XLSX
         }
 
         /*
+         * Return All tu-placeholder Node
+         */
+        static public XmlNodeList PlaceholderNodes(XmlDocument sklDocument)
+        {
+            return NodesSkl(sklDocument, "tu-placeholder");
+        }
+
+        /*
          * Return All Formatting Nodes Containing Max.N.Char
          */
         static public XmlNodeList FormattingNodesCharLimit(XmlDocument sklDocument)
@@ -164,14 +172,6 @@ namespace Multilingual_XLSX
             }
 
             return transUnitList;
-        }
-
-        /*
-        * Return All tu-placeholder Node
-        */
-        static public XmlNodeList PlaceholderNodes(XmlDocument sklDocument)
-        {
-            return NodesSkl(sklDocument, "tu-placeholder");
         }
 
         /*

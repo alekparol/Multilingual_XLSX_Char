@@ -148,7 +148,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", false)] // To Fix 
         [DataRow("", false)]
         [DataTestMethod]
-        public void IsContentXlf_Test(string filePath, bool expectedOutcome)
+        public void IsContent_Test(string filePath, bool expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -162,6 +162,56 @@ namespace Multilingual_XLSX.Tests
             }
 
             Assert.AreEqual(expectedOutcome, IsContent(xlfDocument));
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", 36)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "target", 25)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "bpt", 46)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "ept", 44)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "ph", 5)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "it", 0)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "body", 1)]
+        [DataTestMethod]
+        public void NodesXlf_Test(string filePath, string tagName, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesXlf = NodesXlf(xlfDocument, tagName);
+
+            Assert.AreEqual(expectedOutcome, nodesXlf.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 36)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\XLF Without Version\content.xlf", 36)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\XLF Without XMLNS\content.xlf", 36)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
+        //[DataRow("", 0)]
+        [DataTestMethod]
+        public void TransUnitNodes_Test(string filePath, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList transUnitNotes = TransUnitNodes(xlfDocument);
+
+            Assert.AreEqual(expectedOutcome, transUnitNotes.Count);
         }
 
         /*[TestMethod()]

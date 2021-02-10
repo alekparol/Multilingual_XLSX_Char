@@ -146,6 +146,30 @@ namespace Multilingual_XLSX.Tests
             Assert.AreEqual(expectedOutcome, IsSkeleton(sklDocument));
         }
 
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "formatting", 38)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "tu-placeholder", 36)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "file", 1)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "trans-unit", 0)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\SKL Without Closing Formatting\skeleton.skl", 38)]  // To Fix 
+        [DataTestMethod]
+        public void NodesSkl_Test(string filePath, string tagName, int expectedOutcome)
+        {
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            XmlNodeList nodesSkl = NodesSkl(sklDocument, tagName);
+
+            Assert.AreEqual(expectedOutcome, nodesSkl.Count);
+        }
+
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 38)]
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\IDML_1\skeleton.skl", 124)]
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\Invalid SKL\skeleton.skl", 38)]

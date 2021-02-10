@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
+/* TODO: Change XmlNodeList to List<XmlNode> as the return value in the sake of validation. XmlNodeList of the null object is null and cannot be set to list of length 0. */
+
 namespace Multilingual_XLSX
 {
     public class XLF_Manipulation
@@ -134,21 +136,70 @@ namespace Multilingual_XLSX
             }
         }
 
-
         /*
-         * 
+         * Return All Nodes Specified By Name
          */
-        static public XmlNodeList GetAllTransUnitNodes(XmlDocument xlfDocument)
+        static public XmlNodeList NodesXlf(XmlDocument xlfDocument, string tagName)
         {
 
-            XmlNodeList transUnitList = null;
+            XmlNodeList nodesList = null;
+
+            if (IsXlf(xlfDocument) == 1)
+            {
+                nodesList = xlfDocument.GetElementsByTagName(tagName);
+            }
+
+            return nodesList;
+        }
+
+        /*
+         * Return All trans-unit Nodes
+         */
+        static public XmlNodeList TransUnitNodes(XmlDocument xlfDocument)
+        {
+            return NodesXlf(xlfDocument, "trans-unit");         
+        }
+
+        /*
+         * Return All Nodes Specified By Name With a Specified Value of a Specified Attribute
+         */
+        static public XmlNodeList NodesAttributeValueXlf(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
+        {
+
+            XmlNodeList transUnitList = null;        
 
             if (IsContent(xlfDocument))
             {
-                transUnitList = xlfDocument.GetElementsByTagName("trans-unit");
+                string xpathTagName = "//" + tagName;
+                string xpathAttributeValue = "[@" + attributeName + "=\'" + attributeValue + "\']";
+
+                transUnitList = xlfDocument.SelectNodes(xpathTagName + xpathAttributeValue);
             }
 
             return transUnitList;
+        }
+
+        /*
+         * Return List of All Nodes Specified By Name With a Specified Value of a Specified Attribute
+         */
+        static public List<XmlNode> NodesAttributeValueXlfList(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
+        {
+
+            XmlNodeList nodesList = NodesXlf(xlfDocument, tagName);
+            List<XmlNode> nodesListLimited = new List<XmlNode>();
+
+            if (nodesList != null)
+            {
+                foreach (XmlNode node in nodesList)
+                {
+                    if (node.Attributes[attributeName].Value == attributeValue)
+                    {
+                        nodesListLimited.Add(node);
+                    }
+                }
+            }
+
+            return nodesListLimited;
         }
 
         /*
