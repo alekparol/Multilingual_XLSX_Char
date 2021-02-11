@@ -31,6 +31,74 @@ namespace Multilingual_XLSX
     public class Utilities
     {
 
+
+        /*
+         * 
+         */
+
+        /*static public Dictionary<string, string> GetCharLimitDictionary2(List<XmlNode> formattingNodeList)
+        {
+
+            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
+            List<XmlNode> placeholderList = new List<XmlNode>();
+
+            if (formattingNodeList.Count > 0)
+            {
+                foreach (XmlNode formattingNode in formattingNodeList)
+                {
+                    string charLimit = GetCharLimit(formattingNode);
+
+                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
+
+                    foreach (XmlNode placeholderNode in placeholderList)
+                    {
+                        //string arg = formattingNodeList.FindIndex(x => x.Equals(formattingNode)).ToString() + "," + placeholderNode.Attributes["id"].Value;
+                        charLimitDictionary.Add(formattingNodeList.FindIndex(x => x.Equals(formattingNode)).ToString() + "," + placeholderNode.Attributes["id"].Value, charLimit);
+                    }
+
+                }
+
+            }
+
+            return charLimitDictionary;
+
+        }*/
+
+        static public Dictionary<string, Dictionary<string, string>> GetCharLimitDictionary2(List<XmlNode> formattingNodeList)
+        {
+
+            Dictionary<string, Dictionary<string, string>> charLimitDictionary = new Dictionary<string, Dictionary<string, string>>();
+            Dictionary<string, string> partialCharLimit = new Dictionary<string, string>();
+            List<XmlNode> placeholderList = new List<XmlNode>();
+
+            if (formattingNodeList.Count > 0)
+            {
+                for (int i = 0; i < formattingNodeList.Count; i++)
+                {
+
+                    XmlNode formattingNode = formattingNodeList[i];
+                    partialCharLimit = new Dictionary<string, string>();
+
+                    string charLimit = GetCharLimit(formattingNode);
+
+                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
+
+                    foreach (XmlNode placeholderNode in placeholderList)
+                    {
+                        //string arg = formattingNodeList.FindIndex(x => x.Equals(formattingNode)).ToString() + "," + placeholderNode.Attributes["id"].Value;
+                        partialCharLimit.Add(placeholderNode.Attributes["id"].Value, charLimit);
+                    }
+
+                    charLimitDictionary.Add(i.ToString(), partialCharLimit);
+
+                }
+
+            }
+
+            return charLimitDictionary;
+
+        }
+
         /*
          * 
          */
@@ -69,6 +137,33 @@ namespace Multilingual_XLSX
             XmlNodeList translatableNodes = TransUnitTranslatableNodes(contentXlf);
 
             foreach(XmlNode translatableNode in translatableNodes)
+            {
+
+                string transUnitId = translatableNode.Attributes["id"].Value;
+
+                if (charLimitDictionary.ContainsKey(transUnitId))
+                {
+                    AddCharLimit(translatableNode, charLimitDictionary[transUnitId]);
+                }
+            }
+
+        }
+
+        static public void AddCharLimits2(XmlDocument contentXlf, Dictionary<string, Dictionary<string, string>> charLimitDictionary)
+        {
+
+            XmlNodeList translatableNodes = TransUnitTranslatableNodes(contentXlf);
+            List<XmlNode> translatableNodesList = new List<XmlNode>();
+            List<XmlNode> subList = new List<XmlNode>();
+
+            foreach (XmlNode el in translatableNodes)
+            {
+                translatableNodesList.Add(el);
+            }
+
+
+
+            foreach (XmlNode translatableNode in translatableNodes)
             {
 
                 string transUnitId = translatableNode.Attributes["id"].Value;

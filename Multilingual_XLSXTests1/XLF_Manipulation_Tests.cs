@@ -355,6 +355,8 @@ namespace Multilingual_XLSX.Tests
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "char")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "byte")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "pixel")]
         [DataTestMethod]
         public void AddSizeUnit_Test(string filePath, int nodeId, string sizeUnitValue)
         {
@@ -377,9 +379,9 @@ namespace Multilingual_XLSX.Tests
             Assert.AreEqual(sizeUnitValue, nodeFromList.Attributes["size-unit"].Value);
         }
 
-        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "char")]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1)]
         [DataTestMethod]
-        public void AddCharAsSizeUnit_Test(string filePath, int nodeId, string sizeUnitValue)
+        public void AddCharAsSizeUnit_Test(string filePath, int nodeId)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -397,66 +399,100 @@ namespace Multilingual_XLSX.Tests
 
             AddCharAsSizeUnit(nodeFromList);
 
-            Assert.AreEqual(sizeUnitValue, nodeFromList.Attributes["size-unit"].Value);
+            Assert.AreEqual("char", nodeFromList.Attributes["size-unit"].Value);
         }
 
-        [TestMethod()]
-        public void AddByteAsSizeUnit_Test()
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1)]
+        [DataTestMethod]
+        public void AddByteAsSizeUnit_Test(string filePath, int nodeId)
         {
-            Assert.Fail();
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddByteAsSizeUnit(nodeFromList);
+
+            Assert.AreEqual("byte", nodeFromList.Attributes["size-unit"].Value);
         }
 
-        [TestMethod()]
-        public void AddPixelAsSizeUnit_Test()
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1)]
+        [DataTestMethod]
+        public void AddPixelAsSizeUnit_Test(string filePath, int nodeId)
         {
-            Assert.Fail();
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddPixelAsSizeUnit(nodeFromList);
+
+            Assert.AreEqual("pixel", nodeFromList.Attributes["size-unit"].Value);
         }
 
-        [TestMethod()]
-        public void AddMaxWidth_Test()
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "100")]
+        [DataTestMethod]
+        public void AddMaxWidth_Test(string filePath, int nodeId, string maxWidthValue)
         {
-            Assert.Fail();
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddMaxWidth(nodeFromList, maxWidthValue);
+
+            Assert.AreEqual(maxWidthValue, nodeFromList.Attributes["maxwidth"].Value);
         }
 
-        [TestMethod()]
-        public void AddCharLimit_Test()
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "100")]
+        [DataTestMethod]
+        public void AddCharLimit_Test(string filePath, int nodeId, string maxWidthValue)
         {
-            Assert.Fail();
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddCharLimit(nodeFromList, maxWidthValue);
+
+            Assert.AreEqual("char", nodeFromList.Attributes["size-unit"].Value);
+            Assert.AreEqual(maxWidthValue, nodeFromList.Attributes["maxwidth"].Value);
         }
-
-        /*[TestMethod()]
-        public void AddCharLimit_Test()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-
-            string xlfPath = @"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf";
-            XmlDocument xlfDoc = new XmlDocument();
-            xlfDoc.Load(xlfPath);
-
-            Assert.AreEqual("xliff", xlfDoc.DocumentType.Name);
-
-        }
-
-        [TestMethod]
-        public void TestMethod2()
-        {
-
-            string xlfPath = @"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf";
-            XmlDocument xlfDoc = new XmlDocument();
-            xlfDoc.Load(xlfPath);
-
-            XmlNodeList transUnits = TransUnitTranslatableNodes(xlfDoc);
-
-            XmlNode tt =
-            AddCharLimit(transUnits.Item(0), "200");
-
-            Assert.AreEqual("xliff", transUnits.Item(0).OuterXml);
-
-        }*/
     }
 }

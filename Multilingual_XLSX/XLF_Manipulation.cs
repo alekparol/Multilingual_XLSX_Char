@@ -243,6 +243,26 @@ namespace Multilingual_XLSX
             }
         }
 
+        static public void GroupNodes(List<XmlNode> transUnitNodes)
+        {
+            if (transUnitNodes != null)
+            {
+
+                XmlNode firstNode = transUnitNodes.ElementAt(0); // Find First Node from the List
+
+                XmlNode parentNode = firstNode.ParentNode;
+                XmlElement groupNode = parentNode.OwnerDocument.CreateElement("group");
+
+                parentNode.InsertBefore(groupNode, firstNode); // Append group Node Before First Node from the List
+
+                foreach (XmlNode transUnitNode in transUnitNodes)
+                {
+                    parentNode.RemoveChild(transUnitNode);
+                    groupNode.AppendChild(transUnitNode);
+                }
+            }
+        }
+
         /*
          * Adds Attribute and its Value to the Passed XmlNode [XML]
          */
@@ -265,7 +285,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
+         * Adds size-unit and its Value Equal to char to the Passed XmlNode [XLF]
          */
         static public void AddCharAsSizeUnit(XmlNode transUnitNode)
         {
@@ -273,7 +293,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
+         * Adds size-unit and its Value Equal to byte to the Passed XmlNode [XLF]
          */
         static public void AddByteAsSizeUnit(XmlNode transUnitNode)
         {
@@ -281,7 +301,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
+         * Adds size-unit and its Value Equal to pixel to the Passed XmlNode [XLF]
          */
         static public void AddPixelAsSizeUnit(XmlNode transUnitNode)
         {
@@ -289,7 +309,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
+         * Adds maxwidth Attribute and its Value Equal to Passed String to the Passed XmlNode [XLF]
          */
         static public void AddMaxWidth(XmlNode transUnitNode, string maxWidthValue)
         {

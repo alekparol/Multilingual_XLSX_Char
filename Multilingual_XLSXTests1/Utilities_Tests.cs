@@ -42,6 +42,35 @@ namespace Multilingual_XLSX.Tests
 
         }
 
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", 319)]
+        [DataTestMethod]
+        public void GetCharLimitDictionary2_Test(string filePath, int expectedOutcome)
+        {
+            XmlDocument sklDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                sklDocument.Load(filePath);
+            }
+            else
+            {
+                sklDocument = null;
+            }
+
+            XmlNodeList formattingNodes = FormattingNodesCharLimit(sklDocument);
+
+            List<XmlNode> formattingNodesList = new List<XmlNode>();
+            foreach (XmlNode formattingNode in formattingNodes)
+            {
+                formattingNodesList.Add(formattingNode);
+            }
+
+            Dictionary<string, Dictionary<string, string>> idCharLimit = GetCharLimitDictionary2(formattingNodesList);
+
+            Assert.AreEqual(expectedOutcome, idCharLimit["0"].Count);
+
+        }
+
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", @"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\content.xlf")]
         [DataTestMethod]
         public void AddCharLimits_Test(string sklPath, string xlfPath)
