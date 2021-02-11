@@ -214,6 +214,216 @@ namespace Multilingual_XLSX.Tests
             Assert.AreEqual(expectedOutcome, transUnitNotes.Count);
         }
 
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "no", 12)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "yes", 24)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "", 0)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "bpt", "id", "1", 30)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
+        //[DataRow("", 0)]
+        [DataTestMethod]
+        public void NodesAttributeValueXlf_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = NodesAttributeValueXlf(xlfDocument, tagName, attributeName, attributeValue);
+
+            Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "no", 12)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "yes", 24)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "trans-unit", "translate", "", 0)]
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "bpt", "id", "1", 30)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
+        //[DataRow("", 0)]
+        [DataTestMethod]
+        public void NodesAttributeValueXlfList_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            List<XmlNode> nodesWithAttributes = NodesAttributeValueXlfList(xlfDocument, tagName, attributeName, attributeValue);
+
+            Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 24)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
+        //[DataRow("", 0)]
+        [DataTestMethod]
+        public void TransUnitTranslatableNodes_Test(string filePath, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitTranslatableNodes(xlfDocument);
+
+            Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 12)]
+        //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
+        //[DataRow("", 0)]
+        [DataTestMethod]
+        public void TransUnitUntranslatableNodes_Test(string filePath, int expectedOutcome)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+
+            Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf")]
+        [DataTestMethod]
+        public void GroupNodes_Test(string filePath)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+
+            GroupNodes(nodesWithAttributes);
+            XmlNode groupNode = xlfDocument.SelectSingleNode("//group");
+
+            Assert.AreEqual(nodesWithAttributes.Count, groupNode.ChildNodes.Count);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "maxwidth", "100")]
+        [DataTestMethod]
+        public void AddAttributeAndValue_Test(string filePath, int nodeId, string attributeName, string attributeValue)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddAttributeAndValue(nodeFromList, attributeName, attributeValue);
+
+            Assert.AreEqual(attributeValue, nodeFromList.Attributes[attributeName].Value);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "char")]
+        [DataTestMethod]
+        public void AddSizeUnit_Test(string filePath, int nodeId, string sizeUnitValue)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddSizeUnit(nodeFromList, sizeUnitValue);
+
+            Assert.AreEqual(sizeUnitValue, nodeFromList.Attributes["size-unit"].Value);
+        }
+
+        [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1, "char")]
+        [DataTestMethod]
+        public void AddCharAsSizeUnit_Test(string filePath, int nodeId, string sizeUnitValue)
+        {
+            XmlDocument xlfDocument = new XmlDocument();
+
+            if (filePath != String.Empty)
+            {
+                xlfDocument.Load(filePath);
+            }
+            else
+            {
+                xlfDocument = null;
+            }
+
+            XmlNodeList nodesWithAttributes = TransUnitUntranslatableNodes(xlfDocument);
+            XmlNode nodeFromList = nodesWithAttributes.Item(nodeId);
+
+            AddCharAsSizeUnit(nodeFromList);
+
+            Assert.AreEqual(sizeUnitValue, nodeFromList.Attributes["size-unit"].Value);
+        }
+
+        [TestMethod()]
+        public void AddByteAsSizeUnit_Test()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddPixelAsSizeUnit_Test()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddMaxWidth_Test()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddCharLimit_Test()
+        {
+            Assert.Fail();
+        }
+
         /*[TestMethod()]
         public void AddCharLimit_Test()
         {
@@ -240,7 +450,7 @@ namespace Multilingual_XLSX.Tests
             XmlDocument xlfDoc = new XmlDocument();
             xlfDoc.Load(xlfPath);
 
-            XmlNodeList transUnits = GetTranslatableTransUnitNodes(xlfDoc);
+            XmlNodeList transUnits = TransUnitTranslatableNodes(xlfDoc);
 
             XmlNode tt =
             AddCharLimit(transUnits.Item(0), "200");

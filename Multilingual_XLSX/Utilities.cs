@@ -66,7 +66,7 @@ namespace Multilingual_XLSX
         static public void AddCharLimits(XmlDocument contentXlf, Dictionary<string, string> charLimitDictionary)
         {
 
-            XmlNodeList translatableNodes = GetTranslatableTransUnitNodes(contentXlf);
+            XmlNodeList translatableNodes = TransUnitTranslatableNodes(contentXlf);
 
             foreach(XmlNode translatableNode in translatableNodes)
             {

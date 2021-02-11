@@ -203,23 +203,48 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
+         * Return All trans-unit Nodes with "translate" Attribute Value Set to "yes"
          */
-        static public XmlNodeList GetTranslatableTransUnitNodes(XmlDocument xlfDocument)
+        static public XmlNodeList TransUnitTranslatableNodes(XmlDocument xlfDocument)
         {
 
-            XmlNodeList transUnitList = null;
-
-            if (IsContent(xlfDocument))
-            {
-                transUnitList = xlfDocument.SelectNodes("//trans-unit[@translate='yes']");
-            }
-
-            return transUnitList;
+            return NodesAttributeValueXlf(xlfDocument, "trans-unit", "translate", "yes");
         }
 
         /*
-         * 
+         * Return All trans-unit Nodes with "translate" Attribute Value Set to "yes"
+         */
+        static public XmlNodeList TransUnitUntranslatableNodes(XmlDocument xlfDocument)
+        {
+
+            return NodesAttributeValueXlf(xlfDocument, "trans-unit", "translate", "no");
+        }
+
+        /*
+         * Adds a group Node Previous to the First Node in the List and then Reappend All Nodes from the List to this Element 
+         */
+        static public void GroupNodes(XmlNodeList transUnitNodes)
+        {
+            if (transUnitNodes != null)
+            {
+
+                XmlNode firstNode = transUnitNodes.Item(0); // Find First Node from the List
+
+                XmlNode parentNode = firstNode.ParentNode;
+                XmlElement groupNode = parentNode.OwnerDocument.CreateElement("group");
+
+                parentNode.InsertBefore(groupNode, firstNode); // Append group Node Before First Node from the List
+
+                foreach (XmlNode transUnitNode in transUnitNodes)
+                {
+                    parentNode.RemoveChild(transUnitNode);
+                    groupNode.AppendChild(transUnitNode);
+                }
+            }
+        }
+
+        /*
+         * Adds Attribute and its Value to the Passed XmlNode [XML]
          */
         static public void AddAttributeAndValue(XmlNode transUnitNode, string attributeName, string attributeValue)
         {
@@ -232,46 +257,35 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
+         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
          */
         static public void AddSizeUnit(XmlNode transUnitNode, string sizeUnitValue)
         {
-
-            if (sizeUnit.Contains(sizeUnitValue))
-            {
-                AddAttributeAndValue(transUnitNode, "size-unit", sizeUnitValue);
-            }
-
+            AddAttributeAndValue(transUnitNode, "size-unit", sizeUnitValue);
         }
-        
+
         /*
-         * 
+         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
          */
         static public void AddCharAsSizeUnit(XmlNode transUnitNode)
         {
-
             AddSizeUnit(transUnitNode, "char");
-
         }
 
         /*
-         * 
+         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
          */
         static public void AddByteAsSizeUnit(XmlNode transUnitNode)
         {
-
             AddSizeUnit(transUnitNode, "byte");
-
         }
 
         /*
-         * 
+         * Adds size-unit and its Passed Value to the Passed XmlNode [XLF]
          */
         static public void AddPixelAsSizeUnit(XmlNode transUnitNode)
         {
-
             AddSizeUnit(transUnitNode, "pixel");
-
         }
 
         /*
