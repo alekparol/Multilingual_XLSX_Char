@@ -143,8 +143,6 @@ namespace Multilingual_XLSX
                     charLimitValue = charLimitDictionary[nodeIds[0]];
                 }
 
-                //List<XmlNode> foundNodes = transUnitNodes.FindAll(x => x.Attributes["id"].Value.);
-
                 if (foundNodes.Count > 1)
                 {
                     GroupNodes(foundNodes);
@@ -180,21 +178,6 @@ namespace Multilingual_XLSX
         /*
          * 
          */
-        /*static public void AddCharLimitsContentXlf(XmlDocument xlfDocument, Dictionary<int, Dictionary<string, string>> charLimitDictionary)
-        {
-
-            List<XmlNode> transUnitNodes = XmlNodeListToList(TransUnitTranslatableNodes(xlfDocument));
-
-            for (int i = 0; i < charLimitDictionary.Count - 1; i++)
-            {
-                AddCharLimitsMultiple(transUnitNodes, charLimitDictionary[i]);
-            }
-
-        }*/
-
-        /*
-         * 
-         */
         static public void AddCharLimitsContentXlf(XmlDocument xlfDocument, XmlDocument sklDocument)
         {
 
@@ -210,44 +193,29 @@ namespace Multilingual_XLSX
 
         }
 
-
         /*
          * 
          */
-        static public string Beautify(XmlDocument doc)
-        {
-            StringBuilder sb = new StringBuilder();
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                Indent = true,
-                IndentChars = "  ",
-                NewLineChars = "\r\n",
-                NewLineHandling = NewLineHandling.Replace
-            };
-            using (XmlWriter writer = XmlWriter.Create(sb, settings))
-            {
-                doc.Save(writer);
-            }
-            return sb.ToString();
-        }
-
         static public void ProcessXlzFile(string xlzFilePath)
         {
+            if (xlzFilePath != "")
+            {
+                string sklFile = ReadSkeletonSKL(xlzFilePath);
+                string xlfFile = ReadContentXLF(xlzFilePath);
 
-            string sklFile = ReadSkeletonSKL(xlzFilePath);
-            string xlfFile = ReadContentXLF(xlzFilePath);
+                XmlDocument sklDocument = new XmlDocument();
+                sklDocument.PreserveWhitespace = true;
+                sklDocument.LoadXml(sklFile);
 
-            XmlDocument sklDocument = new XmlDocument();
-            sklDocument.LoadXml(sklFile);
+                XmlDocument xlfDocument = new XmlDocument();
+                xlfDocument.PreserveWhitespace = true;
+                xlfDocument.LoadXml(xlfFile);
 
-            XmlDocument xlfDocument = new XmlDocument();
-            xlfDocument.LoadXml(xlfFile);
+                AddCharLimitsContentXlf(xlfDocument, sklDocument);
+                xlfFile = xlfDocument.OuterXml;
 
-            AddCharLimitsContentXlf(xlfDocument, sklDocument);
-            xlfFile = xlfDocument.ToString();
-
-            UpdateContentXLF(xlzFilePath, xlfFile);
-
+                UpdateContentXLF(xlzFilePath, xlfFile);
+            }
         }
         /* TODO: Add Functionality to make char limit in the groups */
 

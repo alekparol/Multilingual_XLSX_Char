@@ -86,17 +86,17 @@ namespace Multilingual_XLSX
             if (IsXlfValid(xlfDocument) == 1)
             {
 
-                string sklVersion = String.Empty;
+                string xlfVersion = String.Empty;
 
-                XmlNode sklNode = xlfDocument.GetElementsByTagName("xliff").Item(0);
-                XmlAttribute sklVersionAttribute = sklNode.Attributes[attributeName];
+                XmlNode xlfNode = xlfDocument.GetElementsByTagName("xliff").Item(0);
+                XmlAttribute sklVersionAttribute = xlfNode.Attributes[attributeName];
 
                 if (sklVersionAttribute != null)
                 {
-                    sklVersion = sklVersionAttribute.Value;
+                    xlfVersion = sklVersionAttribute.Value;
                 }
 
-                return sklVersion;
+                return xlfVersion;
             }
             else
             {

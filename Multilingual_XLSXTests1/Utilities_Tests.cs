@@ -239,26 +239,11 @@ namespace Multilingual_XLSX.Tests
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\test.xlz")]
         [DataTestMethod]
-        public void AddCharLimitsContentXlf_Test1(string xlzPath)
+        public void ProcessXlzFile_Test(string xlzPath)
         {
 
-            XmlDocument xlfDocument = new XmlDocument();
-            xlfDocument.PreserveWhitespace = true;
+            ProcessXlzFile(xlzPath);
 
-            xlfDocument.LoadXml(ReadContentXLF(xlzPath));
-
-            XmlDocument sklDocument = new XmlDocument();
-            sklDocument.PreserveWhitespace = true;
-
-            sklDocument.LoadXml(ReadSkeletonSKL(xlzPath));
-
-            //xlfDocument = Beautify(xlfDocument);
-
-            /**/
-
-            AddCharLimitsContentXlf(xlfDocument, sklDocument);
-
-            xlfDocument.Save(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\tt2.xlf");
         }
     }
 }
