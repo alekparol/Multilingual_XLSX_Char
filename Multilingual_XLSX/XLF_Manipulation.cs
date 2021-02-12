@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 /* TODO: Change XmlNodeList to List<XmlNode> as the return value in the sake of validation. XmlNodeList of the null object is null and cannot be set to list of length 0. */
@@ -317,9 +318,21 @@ namespace Multilingual_XLSX
             int sizeUnit;
             bool operationValue = Int32.TryParse(maxWidthValue, out sizeUnit);
 
+            Regex emojiEncoded = new Regex("##.*?##");
+
             if (operationValue)
             {
-                AddAttributeAndValue(transUnitNode, "maxwidth", maxWidthValue);
+
+                MatchCollection encodedEmojis = emojiEncoded.Matches(transUnitNode.InnerText);
+
+                if (encodedEmojis.Count > 0)
+                {
+                    foreach(Match emojiMatch in encodedEmojis)
+                    {
+                        sizeUnit += emojiMatch.Value.Length - 1;
+                    }
+                }
+                AddAttributeAndValue(transUnitNode, "maxwidth", sizeUnit.ToString());
             }
 
         }

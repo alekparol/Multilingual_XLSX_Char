@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using static Multilingual_XLSX.SKL_Manipulation;
 using static Multilingual_XLSX.XLF_Manipulation;
+using static Multilingual_XLSX.XLZ_Manipulation;
 
 /*
          * What do we need? 
@@ -32,7 +33,7 @@ namespace Multilingual_XLSX
     {
 
         /*
-         * 
+         * Converts XmlNodeList to List<XmlNode>
          */
         static public List<XmlNode> XmlNodeListToList(XmlNodeList xmlNodeList)
         {
@@ -50,34 +51,43 @@ namespace Multilingual_XLSX
             
         }
 
-        static public Dictionary<string, Dictionary<string, string>> GetCharLimitDictionary2(List<XmlNode> formattingNodeList)
+        /*
+         * Returns Dictionary<string, string> Containing placeholder Node's IDs as Keys and Char Limit as Value
+         * 
+         */
+        static public Dictionary<string, string> CharLimitDictionaryPerFormatting(XmlNode formattingNode)
         {
 
-            Dictionary<string, Dictionary<string, string>> charLimitDictionary = new Dictionary<string, Dictionary<string, string>>();
-            Dictionary<string, string> partialCharLimit = new Dictionary<string, string>();
-            List<XmlNode> placeholderList = new List<XmlNode>();
+            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
+            List<XmlNode> precedingPlaceholderNodes = PlaceholderNodesPrecedingDirectly(formattingNode);
+
+            string charLimit = GetCharLimit(formattingNode);
+            
+            foreach (XmlNode precedingPlaceholderNode in precedingPlaceholderNodes)
+            {
+                charLimitDictionary.Add(precedingPlaceholderNode.Attributes["id"].Value, charLimit);
+            }
+
+            return charLimitDictionary;
+
+        }
+
+        /*
+         * Returns Dictionary<int, Dictionary<string, string>> Containing Formatting Node's IDs as Keys and a Dictionary<string, string> as Value
+         */
+        static public Dictionary<int, Dictionary<string, string>> CharLimitDictionary(List<XmlNode> formattingNodeList)
+        {
+
+            Dictionary<int, Dictionary<string, string>> charLimitDictionary = new Dictionary<int, Dictionary<string, string>>();
 
             if (formattingNodeList.Count > 0)
             {
                 for (int i = 0; i < formattingNodeList.Count; i++)
                 {
-                    List<XmlNode> secondList = formattingNodeList.GetRange(i, 1);
-                    /*XmlNode formattingNode = formattingNodeList[i];
-                    partialCharLimit = new Dictionary<string, string>();
 
-                    string charLimit = GetCharLimit(formattingNode);
-
-                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
-
-                    foreach (XmlNode placeholderNode in placeholderList)
-                    {
-                        partialCharLimit.Add(placeholderNode.Attributes["id"].Value, charLimit);
-                    }*/
-                    partialCharLimit = GetCharLimitDictionary(secondList);
-                    charLimitDictionary.Add(i.ToString(), partialCharLimit);
-
+                    charLimitDictionary.Add(i, 
+                                            CharLimitDictionaryPerFormatting(formattingNodeList[i]));
                 }
-
             }
 
             return charLimitDictionary;
@@ -85,38 +95,7 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * 
-         */
-
-        static public Dictionary<string, string> GetCharLimitDictionary(List<XmlNode> formattingNodeList)
-        {
-
-            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
-            List<XmlNode> placeholderList = new List<XmlNode>();
-
-            if (formattingNodeList.Count > 0)
-            {
-                foreach (XmlNode formattingNode in formattingNodeList)
-                {
-                    string charLimit = GetCharLimit(formattingNode);
-
-                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
-
-                    foreach (XmlNode placeholderNode in placeholderList)
-                    {
-                        charLimitDictionary.Add(placeholderNode.Attributes["id"].Value, charLimit);
-                    }
-
-                }
-
-            }
-
-            return charLimitDictionary;
-
-        }
-
-        /*
-         * 
+         * Adds Char Limit Specific Attributes (size-unit and maxwidth) to the List<XmlNode> Passed, Using the Information About Char Limit Value for Specific XmlNode IDs from Dictionary<string, string>
          */
         static public void AddCharLimitsSingle(List<XmlNode> transUnitNodes, Dictionary<string, string> charLimitDictionary)
         {
@@ -147,12 +126,16 @@ namespace Multilingual_XLSX
         {
             if (charLimitDictionary.Count > 1)
             {
+
+                List<XmlNode> foundNodes = new List<XmlNode>();
+
                 List<string> nodeIds = new List<string>();
                 string charLimitValue = "";
 
                 foreach (string dictionaryKey in charLimitDictionary.Keys)
                 {
                     nodeIds.Add(dictionaryKey);
+                    foundNodes.Add(transUnitNodes.Find(x => x.Attributes["id"].Value == dictionaryKey));
                 }
 
                 if (nodeIds.Count > 0)
@@ -160,123 +143,112 @@ namespace Multilingual_XLSX
                     charLimitValue = charLimitDictionary[nodeIds[0]];
                 }
 
-                List<XmlNode> foundNodes = transUnitNodes.FindAll(x => nodeIds.Contains(x.Attributes["id"].Value));
+                //List<XmlNode> foundNodes = transUnitNodes.FindAll(x => x.Attributes["id"].Value.);
 
                 if (foundNodes.Count > 1)
                 {
                     GroupNodes(foundNodes);
 
-                    XmlNode groupNode = foundNodes[0].OwnerDocument.SelectSingleNode("//group");
-                    AddCharLimit(groupNode, charLimitValue);
+                    XmlNode groupNode = foundNodes[0].ParentNode;
 
+                    if (groupNode.Name == "group")
+                    {
+                        AddCharLimit(groupNode, charLimitValue);
+                    }
                 }
             }
         }
 
-        /*static public Dictionary<string, string> GetCharLimitDictionary2(List<XmlNode> formattingNodeList)
-        {
-
-            Dictionary<string, string> charLimitDictionary = new Dictionary<string, string>();
-            List<XmlNode> placeholderList = new List<XmlNode>();
-
-            if (formattingNodeList.Count > 0)
-            {
-                foreach (XmlNode formattingNode in formattingNodeList)
-                {
-                    string charLimit = GetCharLimit(formattingNode);
-
-                    placeholderList = PlaceholderNodesPrecedingDirectly(formattingNode);
-
-                    foreach (XmlNode placeholderNode in placeholderList)
-                    {
-                        //string arg = formattingNodeList.FindIndex(x => x.Equals(formattingNode)).ToString() + "," + placeholderNode.Attributes["id"].Value;
-                        charLimitDictionary.Add(formattingNodeList.FindIndex(x => x.Equals(formattingNode)).ToString() + "," + placeholderNode.Attributes["id"].Value, charLimit);
-                    }
-
-                }
-
-            }
-
-            return charLimitDictionary;
-
-        }*/
-
-
-        static public void AddCharLimits(XmlDocument contentXlf, Dictionary<string, string> charLimitDictionary)
-        {
-
-            XmlNodeList translatableNodes = TransUnitTranslatableNodes(contentXlf);
-
-            foreach(XmlNode translatableNode in translatableNodes)
-            {
-
-                string transUnitId = translatableNode.Attributes["id"].Value;
-
-                if (charLimitDictionary.ContainsKey(transUnitId))
-                {
-                    AddCharLimit(translatableNode, charLimitDictionary[transUnitId]);
-                }
-            }
-
-        }
-
-        static public void AddCharLimits2(XmlDocument contentXlf, Dictionary<string, Dictionary<string, string>> charLimitDictionary)
-        {
-
-            XmlNodeList translatableNodes = TransUnitTranslatableNodes(contentXlf);
-            List<XmlNode> translatableNodesList = new List<XmlNode>();
-            List<XmlNode> subList = new List<XmlNode>();
-
-            foreach (XmlNode el in translatableNodes)
-            {
-                translatableNodesList.Add(el);
-            }
-
-            foreach (string dicKey in charLimitDictionary.Keys)
-            {
-                if (charLimitDictionary[dicKey].Count == 1)
-                {
-                    foreach (string dic2Key in charLimitDictionary[dicKey].Keys)
-                    {
-                        XmlNode thisNode = translatableNodesList.Find(x => x.Attributes["id"].Value == dic2Key);
-                        AddCharLimit(thisNode, charLimitDictionary[dicKey][dic2Key]);
-                    }
-                }
-                else
-                {
-                    string charLimit = "";
-                    foreach (string dic2Key in charLimitDictionary[dicKey].Keys)
-                    {
-                        XmlNode thisNode = translatableNodesList.Find(x => x.Attributes["id"].Value == dic2Key);
-                        subList.Add(thisNode);
-                        charLimit = charLimitDictionary[dicKey][dic2Key];
-                    }
-
-                    GroupNodes(subList);
-
-                    XmlNode group = contentXlf.SelectSingleNode("//group");
-                    AddCharLimit(group, charLimit);
-
-                }
-            }
-
-        }
-
-        /*static public void AddCharLimitsDictionary(XmlDocument contentXlf, Dictionary<string, string> charLimitDictionary)
+        /*
+         * 
+         */
+        static public void AddCharLimits(List<XmlNode> transUnitNodes, Dictionary<string, string> charLimitDictionary)
         {
             if (charLimitDictionary.Count > 0)
             {
                 if (charLimitDictionary.Count == 1)
                 {
-                    AddCharLimitsSingle(contentXlf, charLimitDictionary);
+                    AddCharLimitsSingle(transUnitNodes, charLimitDictionary);
                 }
                 else
                 {
-                    AddCharLimitsMultiple(contentXlf, charLimitDictionary);
+                    AddCharLimitsMultiple(transUnitNodes, charLimitDictionary);
                 }
             }
+        }
+
+        /*
+         * 
+         */
+        /*static public void AddCharLimitsContentXlf(XmlDocument xlfDocument, Dictionary<int, Dictionary<string, string>> charLimitDictionary)
+        {
+
+            List<XmlNode> transUnitNodes = XmlNodeListToList(TransUnitTranslatableNodes(xlfDocument));
+
+            for (int i = 0; i < charLimitDictionary.Count - 1; i++)
+            {
+                AddCharLimitsMultiple(transUnitNodes, charLimitDictionary[i]);
+            }
+
         }*/
 
+        /*
+         * 
+         */
+        static public void AddCharLimitsContentXlf(XmlDocument xlfDocument, XmlDocument sklDocument)
+        {
+
+            List<XmlNode> formattingNodes = XmlNodeListToList(FormattingNodesCharLimit(sklDocument));
+            List<XmlNode> transUnitNodes = XmlNodeListToList(TransUnitNodes(xlfDocument));
+
+            Dictionary<int, Dictionary<string, string>> charLimitDictionary = CharLimitDictionary(formattingNodes);
+
+            for (int i = 0; i < formattingNodes.Count; i++)
+            {
+                AddCharLimits(transUnitNodes, charLimitDictionary[i]);
+            }
+
+        }
+
+
+        /*
+         * 
+         */
+        static public string Beautify(XmlDocument doc)
+        {
+            StringBuilder sb = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = "  ",
+                NewLineChars = "\r\n",
+                NewLineHandling = NewLineHandling.Replace
+            };
+            using (XmlWriter writer = XmlWriter.Create(sb, settings))
+            {
+                doc.Save(writer);
+            }
+            return sb.ToString();
+        }
+
+        static public void ProcessXlzFile(string xlzFilePath)
+        {
+
+            string sklFile = ReadSkeletonSKL(xlzFilePath);
+            string xlfFile = ReadContentXLF(xlzFilePath);
+
+            XmlDocument sklDocument = new XmlDocument();
+            sklDocument.LoadXml(sklFile);
+
+            XmlDocument xlfDocument = new XmlDocument();
+            xlfDocument.LoadXml(xlfFile);
+
+            AddCharLimitsContentXlf(xlfDocument, sklDocument);
+            xlfFile = xlfDocument.ToString();
+
+            UpdateContentXLF(xlzFilePath, xlfFile);
+
+        }
         /* TODO: Add Functionality to make char limit in the groups */
 
     }
