@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Multilingual_XLSX
 {
-    class Xlf
+    public class Xlf
     {
 
         /* Fields */
@@ -35,28 +35,28 @@ namespace Multilingual_XLSX
             }
         }
 
-        public List<XmlNode> TransUnitNodes
+        public List<XmlNode> TransUnits
         {
             get
             {
-                List<XmlNode> nTransUnitList = new List<XmlNode(nTransUnit.Cast<XmlNode>());
+                List<XmlNode> nTransUnitList = new List<XmlNode>(nTransUnit.Cast<XmlNode>());
                 return nTransUnitList;
             }
         }
 
-        public List<XmlNode> TranslatableTransUnitNodes
+        public List<XmlNode> TranslatableTransUnits
         {
             get
             {
-                return TransUnitNodes.FindAll(x => x.Attributes["translate"].Value == "yes");                       
+                return TransUnits.FindAll(x => x.Attributes["translate"].Value == "yes");                       
             }
         }
 
-        public List<XmlNode> UntranslatableTransUnitNodes
+        public List<XmlNode> UntranslatableTransUnits
         {
             get
             {
-                return TransUnitNodes.FindAll(x => x.Attributes["translate"].Value == "no");
+                return TransUnits.FindAll(x => x.Attributes["translate"].Value == "no");
             }
         }
 
@@ -73,28 +73,51 @@ namespace Multilingual_XLSX
             return false;
         }
 
-        public List<XmlNode> GetNodesByTagName(XmlDocument xlfDocument, string tagName)
+        public List<XmlNode> GetNodesByTagName(string tagName)
         {
 
-            List<XmlNode> nodesList = new List<XmlNode>(xlfDocument
+            List<XmlNode> nodesList = new List<XmlNode>(xXlf
                                                        .GetElementsByTagName(tagName)
                                                        .Cast<XmlNode>());
             return nodesList;
         }
 
-        public List<XmlNode> GetNodesByTagNameAttributeValue(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
+        public List<XmlNode> GetNodesByTagNameAttributeValue(string tagName, string attributeName, string attributeValue)
         {
 
-            string xpathTagName = "//" + tagName;
-            string xpathAttributeValue = "[@" + attributeName + "=\'" + attributeValue + "\']";
-
-            string fullXPath = xpathTagName + xpathAttributeValue;
-
-            List<XmlNode> nodeList = new List<XmlNode>(xlfDocument
-                                                       .SelectNodes(fullXPath)
-                                                       .Cast<XmlNode>());
+            List<XmlNode> nodeList = GetNodesByTagName(tagName)
+                                     .FindAll(x => x.Attributes[attributeName]
+                                                    .Value == attributeValue);
             return nodeList;
         }
+
+        public void GroupNodes(List<XmlNode> nodeList)
+        {
+            if (nodeList.Count > 0)
+            {
+                XmlNode firstNode = nodeList.First();
+                XmlNode parentNode = firstNode.ParentNode;
+
+                XmlElement groupNode = parentNode.OwnerDocument.CreateElement("group");
+                parentNode.InsertBefore(groupNode, firstNode); // Append group Node Before First Node from the List
+
+                foreach (XmlNode transUnitNode in nodeList)
+                {
+                    parentNode.RemoveChild(transUnitNode);
+                    groupNode.AppendChild(transUnitNode);
+                }
+            }
+        }
+
+        /*public void AddAttributeAndValue(List<XmlNode> transUnitNodeList, string attributeName, string attributeValue)
+        {
+
+            XmlAttribute unitSize = transUnitNode.OwnerDocument.CreateAttribute(attributeName);
+            unitSize.Value = attributeValue;
+
+            transUnitNode.Attributes.Append(unitSize);
+
+        }*/
 
         /* Constructors */
 
