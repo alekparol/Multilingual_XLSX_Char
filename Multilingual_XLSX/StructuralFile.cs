@@ -11,35 +11,22 @@ namespace Multilingual_XLSX
 
         /* Fields */
 
-        private string sXliff;
-        private XmlDocument xXliff;
+        private string sStructuralFile;
+        private XmlDocument xStructuralFile;
 
-        private XmlNode nXliff;
-        private XmlNodeList nStructuralElements;
+        private XmlDocumentType xDocumentType;
+        private XmlNode xRootNode;
+
+        private XmlNode xBodyNode;
+        private XmlNodeList xStructuralElements;
 
         /* Properties */
-
-        public string XliffVersion
-        {
-            get
-            {
-                return nXliff.Attributes["version"].Value;
-            }
-        }
-
-        public string XliffXmlns
-        {
-            get
-            {
-                return nXliff.Attributes["xmlns:logoport"].Value;
-            }
-        }
 
         public List<StructuralElement> StructuralElements
         {
             get
             {
-                List<StructuralElement> nElementList = new List<StructuralElement>(nStructuralElements.Cast<StructuralElement>());
+                List<StructuralElement> nElementList = new List<StructuralElement>(xStructuralElements.Cast<StructuralElement>());
                 return nElementList;
             }
         }
@@ -49,7 +36,7 @@ namespace Multilingual_XLSX
         public List<StructuralElement> GetNodesByTagName(string tagName)
         {
 
-            List<StructuralElement> nodesList = new List<StructuralElement>(xXliff
+            List<StructuralElement> nodesList = new List<StructuralElement>(xStructuralFile
                                                        .GetElementsByTagName(tagName)
                                                        .Cast<StructuralElement>());
             return nodesList;
@@ -67,38 +54,42 @@ namespace Multilingual_XLSX
 
         /* Constructors */
 
-        public Xliff()
+        public StructuralFile()
         {
 
         }
 
-        public Xliff(XmlDocument xmlDocument)
+        public StructuralFile(XmlDocument xmlDocument)
         {
 
-            xXliff = xmlDocument;
+            xStructuralFile = xmlDocument;
 
-            if (xmlDocument != null)
+            if (xStructuralFile != null)
             {
-                if (xmlDocument.DocumentType.Name.Equals("xliff"))
+                xDocumentType = xStructuralFile.DocumentType;
+
+                if (xDocumentType == null)
                 {
+                    throw new Exception(String.Format("The file does not contain document type."));
+                }
 
-                    XmlNodeList nXliffList = xmlDocument.GetElementsByTagName("xliff");
+                xRootNode = xStructuralFile.DocumentElement;            
 
-                    if (nXliffList.Count == 1)
-                    {
+                if (xRootNode == null)
+                {
+                    throw new Exception(String.Format("The file does not contain root node."));
+                }
 
-                        nXliff = nXliffList.Item(0);
-                        nStructuralElements = xmlDocument.SelectNodes("//body/*[self::trans-unit or self::group]");
+                XmlNodeList xBodyNodes = xRootNode.SelectNodes(".//body");
 
-                    }
-                    else
-                    {
-                        throw new Exception(String.Format("The file contains multiple xliff nodes."));
-                    }
+                if (xBodyNodes.Count == 1)
+                {
+                    xBodyNode = xBodyNodes.Item(0);
+                    xStructuralElements = xBodyNode.ChildNodes;
                 }
                 else
                 {
-                    throw new Exception(String.Format("The type of the file provided is not equal to Xliff."));
+                    throw new Exception(String.Format("The file contains {0} number of body nodes.", xBodyNodes.Count));
                 }
             }
             else
@@ -106,6 +97,5 @@ namespace Multilingual_XLSX
                 throw new Exception(String.Format("Creation of a new Xliff object cannot be done. The XmlDocument is null."));
             }
         }
-
     }
 }
