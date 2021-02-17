@@ -37,7 +37,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1)]
         [DataRow("", -1)]
         [DataTestMethod]
-        public void IsXlf_Test(string filePath, int expectedOutcome)
+        public void IsXliff_Test(string filePath, int expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -50,7 +50,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            Assert.AreEqual(expectedOutcome, IsXlf(xlfDocument));
+            Assert.AreEqual(expectedOutcome, IsXliff(xlfDocument));
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 1)]
@@ -58,7 +58,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", -1)]
         [DataRow("", -1)]
         [DataTestMethod]
-        public void IsXlfValid_Test(string filePath, int expectedOutcome)
+        public void IsXliffValid_Test(string filePath, int expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -71,7 +71,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            Assert.AreEqual(expectedOutcome, IsXlfValid(xlfDocument));
+            Assert.AreEqual(expectedOutcome, IsXliffValid(xlfDocument));
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "version", "1.1")]
@@ -81,7 +81,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "", "")] // To Fix 
         [DataRow("", "", "")]
         [DataTestMethod]
-        public void XlfAttributeValue_Test(string filePath, string attributeName, string expectedOutcome)
+        public void XliffAttributeValue_Test(string filePath, string attributeName, string expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -94,7 +94,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            Assert.AreEqual(expectedOutcome, XlfAttributeValue(xlfDocument, attributeName));
+            Assert.AreEqual(expectedOutcome, XliffAttributeValue(xlfDocument, attributeName));
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "1.1")]
@@ -103,7 +103,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "")] // To Fix 
         [DataRow("", "")]
         [DataTestMethod]
-        public void XlfVersion_Test(string filePath, string expectedOutcome)
+        public void XliffVersion_Test(string filePath, string expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -116,7 +116,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            Assert.AreEqual(expectedOutcome, XlfVersion(xlfDocument));
+            Assert.AreEqual(expectedOutcome, XliffVersion(xlfDocument));
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "urn:logoport:xliffeditor:xliff-extras:1.0")]
@@ -125,7 +125,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", "")] // To Fix 
         [DataRow("", "")]
         [DataTestMethod]
-        public void XlfXmlns_Test(string filePath, string expectedOutcome)
+        public void XliffXmlns_Test(string filePath, string expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -138,7 +138,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            Assert.AreEqual(expectedOutcome, XlfXmlns(xlfDocument));
+            Assert.AreEqual(expectedOutcome, XliffXmlns(xlfDocument));
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", true)]
@@ -172,7 +172,7 @@ namespace Multilingual_XLSX.Tests
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "it", 0)]
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", "body", 1)]
         [DataTestMethod]
-        public void NodesXlf_Test(string filePath, string tagName, int expectedOutcome)
+        public void NodesXliff_Test(string filePath, string tagName, int expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -185,9 +185,9 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            XmlNodeList nodesXlf = NodesXlf(xlfDocument, tagName);
+            XmlNodeList nodesXliff = NodesXliff(xlfDocument, tagName);
 
-            Assert.AreEqual(expectedOutcome, nodesXlf.Count);
+            Assert.AreEqual(expectedOutcome, nodesXliff.Count);
         }
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\content.xlf", 36)]
@@ -221,7 +221,7 @@ namespace Multilingual_XLSX.Tests
         //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
         //[DataRow("", 0)]
         [DataTestMethod]
-        public void NodesAttributeValueXlf_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
+        public void NodesAttributeValueXliff_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -234,7 +234,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            XmlNodeList nodesWithAttributes = NodesAttributeValueXlf(xlfDocument, tagName, attributeName, attributeValue);
+            XmlNodeList nodesWithAttributes = NodesAttributeValueXliff(xlfDocument, tagName, attributeName, attributeValue);
 
             Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
         }
@@ -246,7 +246,7 @@ namespace Multilingual_XLSX.Tests
         //[DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\DOCX_1\skeleton.skl", 0)] 
         //[DataRow("", 0)]
         [DataTestMethod]
-        public void NodesAttributeValueXlfList_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
+        public void NodesAttributeValueXliffList_Test(string filePath, string tagName, string attributeName, string attributeValue, int expectedOutcome)
         {
             XmlDocument xlfDocument = new XmlDocument();
 
@@ -259,7 +259,7 @@ namespace Multilingual_XLSX.Tests
                 xlfDocument = null;
             }
 
-            List<XmlNode> nodesWithAttributes = NodesAttributeValueXlfList(xlfDocument, tagName, attributeName, attributeValue);
+            List<XmlNode> nodesWithAttributes = NodesAttributeValueXliffList(xlfDocument, tagName, attributeName, attributeValue);
 
             Assert.AreEqual(expectedOutcome, nodesWithAttributes.Count);
         }

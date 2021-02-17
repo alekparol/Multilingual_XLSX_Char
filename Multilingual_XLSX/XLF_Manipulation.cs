@@ -31,9 +31,9 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xlf Check
+         * Xliff Check
          */
-        public static int IsXlf(XmlDocument xlfDocument)
+        public static int IsXliff(XmlDocument xlfDocument)
         {
             if (!IsNull(xlfDocument))
             {
@@ -53,12 +53,12 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Xlf Validity Check
+         * Xliff Validity Check
          */
 
-        public static int IsXlfValid(XmlDocument xlfDocument)
+        public static int IsXliffValid(XmlDocument xlfDocument)
         {
-            if (IsXlf(xlfDocument) == 1)
+            if (IsXliff(xlfDocument) == 1)
             {
                 XmlNodeList xliffNodes = xlfDocument.GetElementsByTagName("xliff");
 
@@ -78,12 +78,12 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Xlf Attribute Value
+         * Get Xliff Attribute Value
          */
 
-        public static string XlfAttributeValue(XmlDocument xlfDocument, string attributeName)
+        public static string XliffAttributeValue(XmlDocument xlfDocument, string attributeName)
         {
-            if (IsXlfValid(xlfDocument) == 1)
+            if (IsXliffValid(xlfDocument) == 1)
             {
 
                 string xlfVersion = String.Empty;
@@ -105,21 +105,21 @@ namespace Multilingual_XLSX
         }
 
         /*
-         * Get Xlf Version
+         * Get Xliff Version
          */
 
-        public static string XlfVersion(XmlDocument xlfDocument)
+        public static string XliffVersion(XmlDocument xlfDocument)
         {
-            return XlfAttributeValue(xlfDocument, "version");
+            return XliffAttributeValue(xlfDocument, "version");
         }
 
         /*
-         * Get Xlf Xmlns
+         * Get Xliff Xmlns
          */
 
-        public static string XlfXmlns(XmlDocument xlfDocument)
+        public static string XliffXmlns(XmlDocument xlfDocument)
         {
-            return XlfAttributeValue(xlfDocument, "xmlns:logoport");
+            return XliffAttributeValue(xlfDocument, "xmlns:logoport");
         }
 
         /*
@@ -127,7 +127,7 @@ namespace Multilingual_XLSX
          */
         public static bool IsContent(XmlDocument xlfDocument)
         {
-            if (XlfVersion(xlfDocument) != String.Empty && XlfXmlns(xlfDocument) != String.Empty)
+            if (XliffVersion(xlfDocument) != String.Empty && XliffXmlns(xlfDocument) != String.Empty)
             {
                 return true;
             }
@@ -140,12 +140,12 @@ namespace Multilingual_XLSX
         /*
          * Return All Nodes Specified By Name
          */
-        static public XmlNodeList NodesXlf(XmlDocument xlfDocument, string tagName)
+        static public XmlNodeList NodesXliff(XmlDocument xlfDocument, string tagName)
         {
 
             XmlNodeList nodesList = null;
 
-            if (IsXlf(xlfDocument) == 1)
+            if (IsXliff(xlfDocument) == 1)
             {
                 nodesList = xlfDocument.GetElementsByTagName(tagName);
             }
@@ -158,13 +158,13 @@ namespace Multilingual_XLSX
          */
         static public XmlNodeList TransUnitNodes(XmlDocument xlfDocument)
         {
-            return NodesXlf(xlfDocument, "trans-unit");         
+            return NodesXliff(xlfDocument, "trans-unit");         
         }
 
         /*
          * Return All Nodes Specified By Name With a Specified Value of a Specified Attribute
          */
-        static public XmlNodeList NodesAttributeValueXlf(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
+        static public XmlNodeList NodesAttributeValueXliff(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
         {
 
             XmlNodeList transUnitList = null;        
@@ -183,10 +183,10 @@ namespace Multilingual_XLSX
         /*
          * Return List of All Nodes Specified By Name With a Specified Value of a Specified Attribute
          */
-        static public List<XmlNode> NodesAttributeValueXlfList(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
+        static public List<XmlNode> NodesAttributeValueXliffList(XmlDocument xlfDocument, string tagName, string attributeName, string attributeValue)
         {
 
-            XmlNodeList nodesList = NodesXlf(xlfDocument, tagName);
+            XmlNodeList nodesList = NodesXliff(xlfDocument, tagName);
             List<XmlNode> nodesListLimited = new List<XmlNode>();
 
             if (nodesList != null)
@@ -209,7 +209,7 @@ namespace Multilingual_XLSX
         static public XmlNodeList TransUnitTranslatableNodes(XmlDocument xlfDocument)
         {
 
-            return NodesAttributeValueXlf(xlfDocument, "trans-unit", "translate", "yes");
+            return NodesAttributeValueXliff(xlfDocument, "trans-unit", "translate", "yes");
         }
 
         /*
@@ -218,7 +218,7 @@ namespace Multilingual_XLSX
         static public XmlNodeList TransUnitUntranslatableNodes(XmlDocument xlfDocument)
         {
 
-            return NodesAttributeValueXlf(xlfDocument, "trans-unit", "translate", "no");
+            return NodesAttributeValueXliff(xlfDocument, "trans-unit", "translate", "no");
         }
 
         /*

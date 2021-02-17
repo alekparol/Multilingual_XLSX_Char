@@ -178,7 +178,7 @@ namespace Multilingual_XLSX
         /*
          * 
          */
-        static public void AddCharLimitsContentXlf(XmlDocument xlfDocument, XmlDocument sklDocument)
+        static public void AddCharLimitsContentXliff(XmlDocument xlfDocument, XmlDocument sklDocument)
         {
 
             List<XmlNode> formattingNodes = XmlNodeListToList(FormattingNodesCharLimit(sklDocument));
@@ -211,7 +211,7 @@ namespace Multilingual_XLSX
                 xlfDocument.PreserveWhitespace = true;
                 xlfDocument.LoadXml(xlfFile);
 
-                AddCharLimitsContentXlf(xlfDocument, sklDocument);
+                AddCharLimitsContentXliff(xlfDocument, sklDocument);
                 xlfFile = xlfDocument.OuterXml;
 
                 UpdateContentXLF(xlzFilePath, xlfFile);

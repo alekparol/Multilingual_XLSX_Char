@@ -3,98 +3,59 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Multilingual_XLSX
 {
-    public class TransUnit
+    public class TransUnit : StructuralElement
     {
 
         /* Fields */
 
-        private string sXlf;
-        private XmlDocument xXlf;
-
-        private XmlNode nXliff;
-        private XmlNodeList nTransUnit;
-
         /* Properties */
 
-        /* Methods */
-
-        public void AddAttributeAndValue(XmlNode transUnitNode, string attributeName, string attributeValue)
+        public string Id
         {
-
-            XmlAttribute unitSize = transUnitNode.OwnerDocument.CreateAttribute(attributeName);
-            unitSize.Value = attributeValue;
-
-            transUnitNode.Attributes.Append(unitSize);
-
-        }
-
-        static public void AddSizeUnit(XmlNode transUnitNode, string sizeUnitValue)
-        {
-            AddAttributeAndValue(transUnitNode, "size-unit", sizeUnitValue);
-        }
-
-        static public void AddCharAsSizeUnit(XmlNode transUnitNode)
-        {
-            AddSizeUnit(transUnitNode, "char");
-        }
-
-        static public void AddByteAsSizeUnit(XmlNode transUnitNode)
-        {
-            AddSizeUnit(transUnitNode, "byte");
-        }
-
-        static public void AddPixelAsSizeUnit(XmlNode transUnitNode)
-        {
-            AddSizeUnit(transUnitNode, "pixel");
-        }
-
-        static public void AddMaxWidth(XmlNode transUnitNode, string maxWidthValue)
-        {
-
-            int sizeUnit;
-            bool operationValue = Int32.TryParse(maxWidthValue, out sizeUnit);
-
-            Regex emojiEncoded = new Regex("##.*?##");
-
-            if (operationValue)
+            get
             {
-
-                MatchCollection encodedEmojis = emojiEncoded.Matches(transUnitNode.InnerText);
-
-                if (encodedEmojis.Count > 0)
+                if (xNode.Attributes["id"] != null)
                 {
-                    foreach (Match emojiMatch in encodedEmojis)
-                    {
-                        sizeUnit += emojiMatch.Value.Length - 1;
-                    }
+                    return xNode.Attributes["id"].Value;
                 }
-                AddAttributeAndValue(transUnitNode, "maxwidth", sizeUnit.ToString());
+                else
+                {
+                    return String.Empty;
+                }
             }
-
         }
 
-        static public void AddCharLimit(XmlNode transUnitNode, string maxWidthValue)
+        public string Translate
         {
-
-            AddCharAsSizeUnit(transUnitNode);
-            AddMaxWidth(transUnitNode, maxWidthValue);
-
+            get
+            {
+                if (xNode.Attributes["translate"] != null)
+                {
+                    return xNode.Attributes["translate"].Value;
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
         }
+        /* Methods */
 
         /* Constructors */
 
-        public Xlf()
+        public TransUnit()
         {
 
         }
 
-        public Xlf(XmlDocument xmlDocument)
+        public TransUnit(XmlNode xmlNode) : base(xmlNode)
         {
 
-          
         }
+
     }
 }

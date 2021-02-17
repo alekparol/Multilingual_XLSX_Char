@@ -203,7 +203,7 @@ namespace Multilingual_XLSX.Tests
 
         [DataRow(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\skeleton.skl", @"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\content.xlf", "test_1.xlf", 157)]
         [DataTestMethod]
-        public void AddCharLimitsContentXlf_Test(string sklPath, string xlfPath, string testFileName, int expectedOutcome)
+        public void AddCharLimitsContentXliff_Test(string sklPath, string xlfPath, string testFileName, int expectedOutcome)
         {
             XmlDocument sklDocument = new XmlDocument();
             sklDocument.PreserveWhitespace = true;
@@ -231,7 +231,7 @@ namespace Multilingual_XLSX.Tests
 
             /**/
 
-            AddCharLimitsContentXlf(xlfDocument, sklDocument);
+            AddCharLimitsContentXliff(xlfDocument, sklDocument);
             Assert.AreEqual(expectedOutcome, xlfDocument.SelectNodes("//*[@size-unit='char']").Count);
 
             xlfDocument.Save(@"C:\Users\Aleksander.Parol\Desktop\XLZ Example\Multilingual XLSX\" + testFileName);

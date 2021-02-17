@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace Multilingual_XLSX
 {
-    public class Xlf
+    public class Xliff
     {
 
         /* Fields */
 
-        private string sXlf;
-        private XmlDocument xXlf;
+        private string sXliff;
+        private XmlDocument xXliff;
 
         private XmlNode nXliff;
-        private XmlNodeList nTransUnit;
+        private XmlNodeList nStructuralElements;
 
         /* Properties */
 
@@ -35,35 +35,56 @@ namespace Multilingual_XLSX
             }
         }
 
-        public List<XmlNode> TransUnits
+        public List<StructuralElement> StructuralElements
         {
             get
             {
-                List<XmlNode> nTransUnitList = new List<XmlNode>(nTransUnit.Cast<XmlNode>());
-                return nTransUnitList;
+                List<StructuralElement> nElementList = new List<StructuralElement>(nStructuralElements.Cast<StructuralElement>());
+                return nElementList;
             }
         }
 
-        public List<XmlNode> TranslatableTransUnits
+        public List<TransUnit> TransUnits
         {
             get
             {
-                return TransUnits.FindAll(x => x.Attributes["translate"].Value == "yes");                       
+                List<TransUnit> nElementList = new List<TransUnit>(StructuralElements
+                                                   .FindAll(x => x.Name == "trans-unit")
+                                                   .Cast<TransUnit>());
+                return nElementList;
             }
         }
 
-        public List<XmlNode> UntranslatableTransUnits
+        public List<TransUnit> TranslatableElements
         {
             get
             {
-                return TransUnits.FindAll(x => x.Attributes["translate"].Value == "no");
+                return TransUnits.FindAll(x => x.Translate == "yes");
             }
         }
 
+        public List<TransUnit> UntranslatableTransUnits
+        {
+            get
+            {
+                return TransUnits.FindAll(x => x.Translate == "no");
+            }
+        }
+
+        public List<TransUnit> Groups
+        {
+            get
+            {
+                List<TransUnit> nElementList = new List<TransUnit>(StructuralElements
+                                                   .FindAll(x => x.Name == "group")
+                                                   .Cast<TransUnit>());
+                return nElementList;
+            }
+        }
 
         /* Methods */
 
-        public bool IsContentXlf()
+        public bool IsContentXliff()
         {
             if (XliffVersion != String.Empty && XliffXmlns != String.Empty)
             {
@@ -73,63 +94,54 @@ namespace Multilingual_XLSX
             return false;
         }
 
-        public List<XmlNode> GetNodesByTagName(string tagName)
+        public List<StructuralElement> GetNodesByTagName(string tagName)
         {
 
-            List<XmlNode> nodesList = new List<XmlNode>(xXlf
+            List<StructuralElement> nodesList = new List<StructuralElement>(xXliff
                                                        .GetElementsByTagName(tagName)
-                                                       .Cast<XmlNode>());
+                                                       .Cast<StructuralElement>());
             return nodesList;
         }
 
-        public List<XmlNode> GetNodesByTagNameAttributeValue(string tagName, string attributeName, string attributeValue)
+        public List<StructuralElement> GetNodesByTagNameAttributeValue(string tagName, string attributeName, string attributeValue)
         {
 
-            List<XmlNode> nodeList = GetNodesByTagName(tagName)
+            List<StructuralElement> nodeList = GetNodesByTagName(tagName)
                                      .FindAll(x => x.Attributes[attributeName]
                                                     .Value == attributeValue);
             return nodeList;
         }
 
-        public void GroupNodes(List<XmlNode> nodeList)
+
+        public void GroupNodes(List<StructuralElement> nodeList)
         {
             if (nodeList.Count > 0)
             {
-                XmlNode firstNode = nodeList.First();
+                XmlNode firstNode = nodeList.First().XmlNode;
                 XmlNode parentNode = firstNode.ParentNode;
 
                 XmlElement groupNode = parentNode.OwnerDocument.CreateElement("group");
                 parentNode.InsertBefore(groupNode, firstNode); // Append group Node Before First Node from the List
 
-                foreach (XmlNode transUnitNode in nodeList)
+                foreach (StructuralElement transUnitNode in nodeList)
                 {
-                    parentNode.RemoveChild(transUnitNode);
-                    groupNode.AppendChild(transUnitNode);
+                    parentNode.RemoveChild(transUnitNode.XmlNode);
+                    groupNode.AppendChild(transUnitNode.XmlNode);
                 }
             }
         }
 
-        /*public void AddAttributeAndValue(List<XmlNode> transUnitNodeList, string attributeName, string attributeValue)
-        {
-
-            XmlAttribute unitSize = transUnitNode.OwnerDocument.CreateAttribute(attributeName);
-            unitSize.Value = attributeValue;
-
-            transUnitNode.Attributes.Append(unitSize);
-
-        }*/
-
         /* Constructors */
 
-        public Xlf()
+        public Xliff()
         {
 
         }
 
-        public Xlf(XmlDocument xmlDocument)
+        public Xliff(XmlDocument xmlDocument)
         {
 
-            xXlf = xmlDocument; 
+            xXliff = xmlDocument; 
 
             if (xmlDocument != null)
             {
@@ -142,7 +154,7 @@ namespace Multilingual_XLSX
                     {
 
                         nXliff = nXliffList.Item(0);
-                        nTransUnit = xmlDocument.GetElementsByTagName("tran-unit");
+                        nStructuralElements = xmlDocument.SelectNodes("//body/*[self::trans-unit or self::group]");
 
                     }
                     else
@@ -157,7 +169,7 @@ namespace Multilingual_XLSX
             }
             else
             {
-                throw new Exception(String.Format("Creation of a new Xlf object cannot be done. The XmlDocument is null."));
+                throw new Exception(String.Format("Creation of a new Xliff object cannot be done. The XmlDocument is null."));
             }
         }
 
