@@ -12,13 +12,13 @@ namespace Multilingual_XLSX
         /* Fields */
 
         private string sStructuralFile;
-        private XmlDocument xStructuralFile;
+        protected XmlDocument xStructuralFile;
 
-        private XmlDocumentType xDocumentType;
-        private XmlNode xRootNode;
+        protected XmlDocumentType xDocumentType;
+        protected XmlNode xRootNode;
 
-        private XmlNode xBodyNode;
-        private XmlNodeList xStructuralElements;
+        protected XmlNode xBodyNode;
+        protected XmlNodeList xStructuralElements;
 
         /* Properties */
 
@@ -33,22 +33,21 @@ namespace Multilingual_XLSX
 
         /* Methods */
 
-        public List<StructuralElement> GetNodesByTagName(string tagName)
+        public List<StructuralElement> StructuralElementsByTagName(string tagName)
         {
 
-            List<StructuralElement> nodesList = new List<StructuralElement>(xStructuralFile
-                                                       .GetElementsByTagName(tagName)
-                                                       .Cast<StructuralElement>());
-            return nodesList;
+            List<StructuralElement> nElementList = new List<StructuralElement>(StructuralElements
+                                                                               .FindAll(x => x.Name == tagName));
+            return nElementList;
         }
 
-        public List<StructuralElement> GetNodesByTagNameAttributeValue(string tagName, string attributeName, string attributeValue)
+        public List<StructuralElement> StructuralElementsByTagNameAttributeValue(string tagName, string attributeName, string attributeValue)
         {
 
-            List<StructuralElement> nodeList = GetNodesByTagName(tagName)
-                                     .FindAll(x => x.Attributes[attributeName]
-                                                    .Value == attributeValue);
-            return nodeList;
+            List<StructuralElement> nElementList = StructuralElementsByTagName(tagName)
+                                                   .FindAll(x => x.Attributes[attributeName]
+                                                   .Value == attributeValue);
+            return nElementList;
         }
 
 
@@ -66,6 +65,7 @@ namespace Multilingual_XLSX
 
             if (xStructuralFile != null)
             {
+
                 xDocumentType = xStructuralFile.DocumentType;
 
                 if (xDocumentType == null)

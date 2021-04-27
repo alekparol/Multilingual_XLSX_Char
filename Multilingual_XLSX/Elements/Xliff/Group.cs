@@ -7,16 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace Multilingual_XLSX
 {
-    public class Group : StructuralElement
+    public class Group : XliffStructuralElement
     {
 
         /* Fields */
 
-        List<StructuralElement> sChildNodes;
+        List<XliffStructuralElement> sChildNodes;
 
         /* Properties */
 
-        public List<StructuralElement> ChildNodes
+        public List<XliffStructuralElement> ChildNodes
         {
             get
             {              
@@ -35,7 +35,13 @@ namespace Multilingual_XLSX
 
         public Group(XmlNode xmlNode) : base(xmlNode)
         {
-            List<StructuralElement> childNodes = new List<StructuralElement>(xNode.ChildNodes.Cast<StructuralElement>());
+
+            if (!sName.Equals("group"))
+            {
+                throw new Exception(String.Format("XmlNode name is different than group."));
+            }
+
+            sChildNodes = new List<XliffStructuralElement>(xNode.ChildNodes.Cast<XliffStructuralElement>());
         }
 
     }

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Multilingual_XLSX
 {
-    public class TransUnit : StructuralElement
+    public class TransUnit : XliffStructuralElement
     {
 
         /* Fields */
@@ -54,7 +54,10 @@ namespace Multilingual_XLSX
 
         public TransUnit(XmlNode xmlNode) : base(xmlNode)
         {
-
+            if (! sName.Equals("trans-unit"))
+            {
+                throw new Exception(String.Format("XmlNode name is different than trans-unit."));
+            }
         }
 
     }

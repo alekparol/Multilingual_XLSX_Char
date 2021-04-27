@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Multilingual_XLSX
+namespace Multilingual_XLSX.Elements.Skeleton
 {
-    public class Xlz
+    class SkeletonStructuralElement
     {
     }
 }
